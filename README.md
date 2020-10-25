@@ -8,9 +8,11 @@
   <p>
     <li>Create your own branch.</li>
     <li>Do small things.</li>
-    <li>When you done the small thing create a pull request (learn more <a href="https://www.atlassian.com/git/tutorials/making-a-pull-request" target="_blank">here</a>).</li>
+    <li>When you done the small thing text me I will take a look.</li>
+    <li>If everything is good I will copy to the main branch. You will then download the newest version to your PC (git pull) to your PC. This version will have your own 
+  newest update, and other teammates' updates. Develope from there.</li>
     <li>DO NOT CHANGE THE MAIN BRANCH.</li>
-    <li>Create pull requests after u finish small things. It is easier to check the code.</li>
+    <li>Let me know after u finish small things. It is easier to check the code.</li>
   </p>
   
  <h2>3. Update:</h2>
