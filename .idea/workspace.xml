@@ -20,6 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="234a9e5a-2a9c-4728-b2f3-3598851b79dd" name="Default Changelist" comment="">
+<<<<<<< Updated upstream
       <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Dog.py" afterDir="false" />
@@ -587,6 +588,16 @@
       <change beforePath="$PROJECT_DIR$/venv/Scripts/python.exe" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/Scripts/pythonw.exe" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/pyvenv.cfg" beforeDir="false" />
+=======
+<<<<<<< Updated upstream
+      <change afterPath="$PROJECT_DIR$/Functionality/Menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Functionality/FunctionalityInterace.py" beforeDir="false" afterPath="$PROJECT_DIR$/Functionality/FunctionalityInterace.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -675,8 +686,14 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
+<<<<<<< Updated upstream
     <state width="1650" height="366" key="GridCell.Tab.0.bottom" timestamp="1603664735909">
       <screen x="0" y="0" width="3440" height="1400" />
+=======
+<<<<<<< Updated upstream
+    <state width="1348" height="214" key="GridCell.Tab.0.bottom" timestamp="1603683991472">
+      <screen x="0" y="0" width="1368" height="882" />
+>>>>>>> Stashed changes
     </state>
     <state width="1650" height="366" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1603664735909" />
     <state width="1650" height="366" key="GridCell.Tab.0.center" timestamp="1603664735909">
@@ -691,12 +708,39 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state width="1650" height="366" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1603664735909" />
+=======
+    <state width="1650" height="366" key="GridCell.Tab.0.bottom" timestamp="1603681644268">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1650" height="366" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1603681644268" />
+    <state width="1650" height="366" key="GridCell.Tab.0.center" timestamp="1603681644268">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1650" height="366" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1603681644268" />
+    <state width="1650" height="366" key="GridCell.Tab.0.left" timestamp="1603681644268">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1650" height="366" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1603681644268" />
+    <state width="1650" height="366" key="GridCell.Tab.0.right" timestamp="1603681644268">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1650" height="366" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1603681644268" />
+>>>>>>> Stashed changes
     <state x="2073" y="0" width="1009" height="1470" key="search.everywhere.popup" timestamp="1603665667515">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="2073" y="0" width="1009" height="1470" key="search.everywhere.popup/0.0.3440.1400@0.0.3440.1400" timestamp="1603665667515" />
   </component>
+<<<<<<< Updated upstream
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project1_291$test.coverage" NAME="test Coverage Results" MODIFIED="1603664735904" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
+=======
+<<<<<<< Updated upstream
+=======
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Project1_291$test.coverage" NAME="test Coverage Results" MODIFIED="1603681644263" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 </project>
