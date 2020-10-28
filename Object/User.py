@@ -13,10 +13,6 @@ class User:
         self.__city = city
         self.__crdate = datetime.datetime.now()
 
-    @staticmethod
-    def generateNewID():
-        pass
-
     def getName(self, name):
         return self.__usrname
 

@@ -1,5 +1,6 @@
 from Login.LoginInterface import *
 from Object.User import *
+from Backend.DatabaseInterface import *
 
 
 class Display(LoginInterface):
@@ -10,18 +11,20 @@ class Display(LoginInterface):
     def welcomeScreen():
         # Danh: What if user enter something wrong (ex: 'a')? Throw somekind of exception
         # or ask user input again.
-        acceptable = ['y', 'n']
-        key = input("Are you a new user? y / n")
+        acceptable = ['y', 'n', 'quit']
+        key = input("Are you an existing user? y / n ")
         while True:
-            if (key in acceptable):
+            if key in acceptable:
                 if key == 'y':
                     Display.loginScreen()
                     break
                 if key == 'n':
                     Display.createNewUser()
                     break
+                if key == 'quit':
+                    exit()
             else:
-                key = input("Wrong input, please try again. Are you a new user? y / n")
+                key = input("Wrong input, please try again. Are you a new user? y / n ")
 
     # This method should be static, when call create a new user, with username
     # and password object, with a unique ID (call the hash function here). If
@@ -29,6 +32,8 @@ class Display(LoginInterface):
     @staticmethod
     def createNewUser():
         uid = input("Please enter a unique ID: ")
+        while not DatabaseInterface.requestUIDCheck(uid):
+            uid = input("UID already taken, please input a unique UID: ")
         usrname = input("Please enter your name: ")
         pwd = input("Please enter your password: ")
         city = input("Please enter your city: ")
