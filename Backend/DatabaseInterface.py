@@ -13,23 +13,19 @@ class DatabaseInterface:
         :param query_string: The input SQL string
 
         :param retriever: If the input is a SELECT statement. i.e. "SELECT
-        * FROM ...", turning this argument to True will result in table printing,
-        True by default. For setter (UPDATE, DELETE,...), turn this arguemnt to False
+        * FROM ...", turning this argument to True. For setter (UPDATE, DELETE,...),
+        turn this arguemnt to False
 
         :param col_name: The array of column_name
 
-        :param internal_call: Turn to True for internal methods call
+        :param internal_call: Turn to True for internal methods call, turn off and the
+        it will not print result. Only turn on if retriever is True
 
         :param debug_mode: Turn to True to check what the SQL is.
 
         :return: SQLite3.Cursor object
         """
         pass
-
-    # Use this function to generate a new and unique post ID
-    @staticmethod
-    def requestNewPID():
-        return "p200"
 
     # Use this function to generate a new and unique post ID. Execute this method
     # will provide a unique PID

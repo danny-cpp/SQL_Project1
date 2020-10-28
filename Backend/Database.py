@@ -7,6 +7,7 @@ from prettytable import PrettyTable
 # Database object control and establish, as well as terminate connection to the server.
 # It has methods allows outsiders to interact with the database
 class Database(DatabaseInterface):
+
     # Constructor establish connection to database. If database not exist, it will
     # create new instance.
     def __init__(self):
@@ -21,9 +22,14 @@ class Database(DatabaseInterface):
 
     # This method accept a UID input and a user create SQL query. If the user
     # already existed, it will throw a Boolean false, else, true
-    @staticmethod
-    def requestUIDCheck(uid):
-        return True
+    def requestUIDCheck(self, uid):
+        find_user_SQL = "SELECT * FROM USERS U WHERE U.UID = '" + str(uid) + "';"
+        print(find_user_SQL)
+        uid = self.requestQuery(find_user_SQL, internal_call=True, debug_mode=False)
+        if len(uid) == 0:
+            return True
+
+        return False
 
     def requestQuery(self, query_string, retriever=True, col_name=[],
                      internal_call=False, debug_mode=False):
@@ -67,3 +73,5 @@ class Database(DatabaseInterface):
 if __name__ == '__main__':
     server = Database()
     server.requestQuery("SELECT * FROM users;", True)
+    server.requestNewPID()
+    print(server.requestUIDCheck("u600"))
