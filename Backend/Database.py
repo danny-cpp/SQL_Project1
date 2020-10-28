@@ -10,8 +10,9 @@ class Database(DatabaseInterface):
 
     # Constructor establish connection to database. If database not exist, it will
     # create new instance.
-    def __init__(self):
-        self.__conn = sqlite3.connect('myDB.db')
+    def __init__(self, path):
+        self.__path = path
+        self.__conn = sqlite3.connect(self.__path)
         print("Open database successfully")
 
     # The lifetime of the connection is defined to be when the connection object is created
