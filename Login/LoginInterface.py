@@ -1,4 +1,4 @@
-class LoginScreen:
+class LoginInterface:
     # This method should create an interface allows the user to choose whether
     # they are new user, or returning user. If new user, go to createNewUser().
     # If old user, go to login
