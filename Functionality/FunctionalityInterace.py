@@ -39,6 +39,3 @@ class FunctionalityInterface:
     @staticmethod
     def vote(pid,uid):
         pass
-
-if __name__ == '__main__':
-    print("helloWorld")
