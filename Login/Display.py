@@ -1,6 +1,6 @@
 from Login.LoginInterface import *
 from Object.User import *
-from Backend.DatabaseInterface import *
+from Backend.Database import *
 
 
 class Display(LoginInterface):
@@ -32,14 +32,16 @@ class Display(LoginInterface):
     @staticmethod
     def createNewUser():
         uid = input("Please enter a unique ID: ")
-        while not DatabaseInterface.requestUIDCheck(uid):
+        while not Database.requestUIDCheck(uid):
             uid = input("UID already taken, please input a unique UID: ")
         usrname = input("Please enter your name: ")
         pwd = input("Please enter your password: ")
         city = input("Please enter your city: ")
         # Call for a new ID to be generated
-
         usr = User(uid, usrname, pwd, city)
+        insert_user = ('insert into users(uid, name, pwd, city, crdate) value (' + str(uid) +
+                       ", " + usrname + ", "+ pwd + ", " + city + ", " + str(usr.getCrdate()))
+        Database.requestQuery(insert_user)
 
     # This method should ask the user for username and pass word. Password should be
     # hidden.
@@ -53,6 +55,6 @@ class Display(LoginInterface):
 
 
 if __name__ == '__main__':
-    Display.welcomeScreen()
+    Display.createNewUser()
 
     #key != 'y' or key != 'n'

@@ -1,12 +1,9 @@
 import datetime
-class User:
-    __uid = 0
-    __usrname = ""
-    __pwd = 0
-    __city = ""
-    __crdate = ""
+from Backend.Database import *
 
-    def __int__(self, uid, name, pwd, city):
+
+class User:
+    def __init__(self, uid, name, pwd, city):
         self.__uid = uid
         self.__usrname = name
         self.__pwd = pwd
@@ -27,11 +24,14 @@ class User:
 
     @staticmethod
     def login(uid, pwd):
-        return # return user object
+        # We should check the existence of the user first
+
+        return
 
     def __str__(self):
         return 'Person ' + self.__uid + ' '+ self.__usrname + ', ' + self.__city + ', ' + self.__crdate
 
 
-
+if __name__ == '__main__':
+    User('sdffs', 'fewf', 'fewswfg', 'fewfew')
 

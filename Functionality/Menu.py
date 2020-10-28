@@ -1,14 +1,20 @@
-import Functionality.FunctionalityInterace
+from Functionality.FunctionalityInterace import *
 import Object.User
 import datetime
 
 
-class Menu(Functionality.FunctionalityInterace):
+class Menu(FunctionalityInterface):
     # After login successfully, user will be in the navigation panel. Display all
     # options the user has.
     @staticmethod
     def menuNavigate():
-        pass
+        print("________________________Main menu________________________")
+        print("Input the corresponding number to navigate to that option")
+        print("Type 'back' anytime you want to return to Main Menu______")
+        print("1. Post Question")
+        print("2. Search Post  ")
+        print("3. Post Answer  ")
+        print("4. Vote Post    ")
 
     # Accept string as input, return SQL string statement update. Assume that UID
     # will be provided. It must implement a hash function to create a pid
@@ -55,3 +61,7 @@ class Menu(Functionality.FunctionalityInterace):
         if vote == 'y':
             sql = "insert into votes(pid, vdate, uid) values (" + pid + ", " + datetime.datetime.now()+ ", "+uid+");"
         return sql
+
+
+if __name__ == '__main__':
+    Menu.menuNavigate()
