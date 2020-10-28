@@ -37,5 +37,5 @@ class FunctionalityInterface:
 
     # Order an sql string to update vote according to pid
     @staticmethod
-    def vote(pid):
+    def vote(pid,uid):
         pass

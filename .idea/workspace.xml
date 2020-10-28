@@ -20,6 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="234a9e5a-2a9c-4728-b2f3-3598851b79dd" name="Default Changelist" comment="">
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
@@ -30,10 +31,12 @@
       <change afterPath="$PROJECT_DIR$/Login/LoginInterface.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Login/__init__.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+=======
+>>>>>>> Stevennew
       <change beforePath="$PROJECT_DIR$/.idea/Project1_291.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Project1_291.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/helloWorld.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/somethin.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/_distutils_hack/__init__.py" beforeDir="false" />
@@ -598,6 +601,12 @@
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes
+=======
+      <change beforePath="$PROJECT_DIR$/Functionality/Menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/Functionality/Menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Login/Display.py" beforeDir="false" afterPath="$PROJECT_DIR$/Login/Display.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Login/LoginInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/Login/LoginInterface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Object/User.py" beforeDir="false" afterPath="$PROJECT_DIR$/Object/User.py" afterDir="false" />
+>>>>>>> Stevennew
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -624,13 +633,36 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Study\DEV\Database\Project1_291\Login" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.Menu">
+    <configuration name="Menu" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Project1_291" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="D:\Workspace\Python\myProject\venv\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Functionality" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Functionality/Menu.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Project1_291" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -655,6 +687,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Menu" />
         <item itemvalue="Python.test" />
       </list>
     </recent_temporary>
@@ -668,6 +701,8 @@
       <option name="presentableId" value="Default" />
       <updated>1603664069380</updated>
       <workItem from="1603664070422" duration="6220000" />
+      <workItem from="1603838755933" duration="635000" />
+      <workItem from="1603839406269" duration="2305000" />
     </task>
     <servers />
   </component>
@@ -684,8 +719,10 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     <state width="1650" height="366" key="GridCell.Tab.0.bottom" timestamp="1603664735909">
       <screen x="0" y="0" width="3440" height="1400" />
@@ -694,20 +731,33 @@
     <state width="1348" height="214" key="GridCell.Tab.0.bottom" timestamp="1603683991472">
       <screen x="0" y="0" width="1368" height="882" />
 >>>>>>> Stashed changes
+=======
+    <state x="446" y="243" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1603771823580">
+      <screen x="0" y="0" width="1368" height="882" />
+>>>>>>> Stevennew
     </state>
+    <state x="446" y="243" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1368.882@0.0.1368.882" timestamp="1603771823580" />
+    <state width="1348" height="214" key="GridCell.Tab.0.bottom" timestamp="1603689475706">
+      <screen x="0" y="0" width="1368" height="882" />
+    </state>
+    <state width="1348" height="214" key="GridCell.Tab.0.bottom/0.0.1368.882@0.0.1368.882" timestamp="1603689475706" />
     <state width="1650" height="366" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1603664735909" />
-    <state width="1650" height="366" key="GridCell.Tab.0.center" timestamp="1603664735909">
-      <screen x="0" y="0" width="3440" height="1400" />
+    <state width="1348" height="214" key="GridCell.Tab.0.center" timestamp="1603689475706">
+      <screen x="0" y="0" width="1368" height="882" />
     </state>
+    <state width="1348" height="214" key="GridCell.Tab.0.center/0.0.1368.882@0.0.1368.882" timestamp="1603689475706" />
     <state width="1650" height="366" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1603664735909" />
-    <state width="1650" height="366" key="GridCell.Tab.0.left" timestamp="1603664735909">
-      <screen x="0" y="0" width="3440" height="1400" />
+    <state width="1348" height="214" key="GridCell.Tab.0.left" timestamp="1603689475706">
+      <screen x="0" y="0" width="1368" height="882" />
     </state>
+    <state width="1348" height="214" key="GridCell.Tab.0.left/0.0.1368.882@0.0.1368.882" timestamp="1603689475706" />
     <state width="1650" height="366" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1603664735909" />
-    <state width="1650" height="366" key="GridCell.Tab.0.right" timestamp="1603664735909">
-      <screen x="0" y="0" width="3440" height="1400" />
+    <state width="1348" height="214" key="GridCell.Tab.0.right" timestamp="1603689475706">
+      <screen x="0" y="0" width="1368" height="882" />
     </state>
+    <state width="1348" height="214" key="GridCell.Tab.0.right/0.0.1368.882@0.0.1368.882" timestamp="1603689475706" />
     <state width="1650" height="366" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1603664735909" />
+<<<<<<< HEAD
 =======
     <state width="1650" height="366" key="GridCell.Tab.0.bottom" timestamp="1603681644268">
       <screen x="0" y="0" width="3440" height="1400" />
@@ -726,11 +776,27 @@
     </state>
     <state width="1650" height="366" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1603681644268" />
 >>>>>>> Stashed changes
+=======
+    <state x="468" y="137" key="SettingsEditor" timestamp="1603838787005">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="186" y="86" key="SettingsEditor/0.0.1368.882@0.0.1368.882" timestamp="1603771908690" />
+    <state x="468" y="137" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1603838787005" />
+    <state x="277" y="174" key="Vcs.Push.Dialog.v2" timestamp="1603685419917">
+      <screen x="0" y="0" width="1368" height="882" />
+    </state>
+    <state x="277" y="174" key="Vcs.Push.Dialog.v2/0.0.1368.882@0.0.1368.882" timestamp="1603685419917" />
+    <state x="502" y="355" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603770935655">
+      <screen x="0" y="0" width="1368" height="882" />
+    </state>
+    <state x="502" y="355" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1368.882@0.0.1368.882" timestamp="1603770935655" />
+>>>>>>> Stevennew
     <state x="2073" y="0" width="1009" height="1470" key="search.everywhere.popup" timestamp="1603665667515">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="2073" y="0" width="1009" height="1470" key="search.everywhere.popup/0.0.3440.1400@0.0.3440.1400" timestamp="1603665667515" />
   </component>
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project1_291$test.coverage" NAME="test Coverage Results" MODIFIED="1603664735904" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -743,4 +809,6 @@
   </component>
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stevennew
 </project>

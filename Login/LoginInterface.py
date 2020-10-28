@@ -23,7 +23,7 @@ class LoginScreen:
     # This method should ask the user for username and pass word. Password should be
     # hidden.
     @staticmethod
-    def login():
+    def loginScreen():
         # Return a user object, where it has all the attributes bellow
         pass
 
