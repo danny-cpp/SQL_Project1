@@ -1,15 +1,15 @@
-class DatabaseInterface:
+from Backend.DatabaseInterface import *
+
+
+class Database(DatabaseInterface):
     # This method accept a UID input and a user create SQL query. If the user
     # already existed, it will throw a Boolean false, else, true
     @staticmethod
     def requestUIDCheck(uid):
-        return False
+        return True
 
     # Call backend with a SQL string
     @staticmethod
     def requestQuery(query_string):
+        print(query_string)
         pass
-
-
-
-
