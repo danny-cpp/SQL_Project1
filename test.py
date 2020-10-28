@@ -8,7 +8,7 @@ if __name__ == '__main__':
     # First action is to guide the user through login process
     current_user = None
     while current_user is None:
-        Display.welcomeScreen(server)
+        current_user = Display.welcomeScreen(server)
 
 
 
