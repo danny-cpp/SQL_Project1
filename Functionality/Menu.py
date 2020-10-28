@@ -1,35 +1,43 @@
 from Functionality.FunctionalityInterace import *
-import Object.User
+from Object.User import *
+from Backend.Database import *
 import datetime
 
 
 class Menu(FunctionalityInterface):
+
+    def __init__(self, uid):
+        self.uid = uid
+
     # After login successfully, user will be in the navigation panel. Display all
     # options the user has.
     @staticmethod
-    def menuNavigate():
+    def menuNavigate(uid):
+        accepted_input = ['1', '2']
         print("________________________Main menu________________________")
         print("Input the corresponding number to navigate to that option")
         print("Type 'back' anytime you want to return to Main Menu______")
         print("1. Post Question")
         print("2. Search Post  ")
-        print("3. Post Answer  ")
-        print("4. Vote Post    ")
+        inp = input("Please type in the number correspond to the option: ")
+        while inp not in accepted_input:
+            inp = input("Unrecognized input. Please type in the number correspond to the option: ")
+
+        if inp == '1':
+            Menu.postQuestion(uid)
+        elif inp == '2':
+            Menu.searchPost(uid)
 
     # Accept string as input, return SQL string statement update. Assume that UID
     # will be provided. It must implement a hash function to create a pid
-    @staticmethod
-    def postQuestion(uid):
-        title = input("What is your title?")
-        body = input("What do you want to post?")
-        sql = "insert into posts(pid, pdate, title, body, poster) values ('100','2020-10-22','" + title +"' ,'"+body+ "' ,'" + str(uid) + "');"
+    def postQuestion(self):
+        title = input("What is your title? ")
+        body = input("What do you want to post? ")
+        pid = Database.requestNewPID()
+        sql = "insert into posts(pid, pdate, title, body, poster) values (" + pid + ",'2020-10-22','" + title +" ," + body + " ," + str(self) + "');"
+        Database.requestQuery(sql)
         return sql
 
-    # Use all the value in the argument to create a a pid. Must be unique. Do
-    # research on this
-    @staticmethod
-    def postHash(uid, postdate, post_content):
-        pass
 
     # Accepting keyword, order SQL query
     @staticmethod
@@ -64,4 +72,5 @@ class Menu(FunctionalityInterface):
 
 
 if __name__ == '__main__':
-    Menu.menuNavigate()
+    while True:
+        Menu.menuNavigate('u200')

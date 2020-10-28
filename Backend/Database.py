@@ -13,3 +13,8 @@ class Database(DatabaseInterface):
     def requestQuery(query_string):
         print(query_string)
         pass
+
+    # Use this function to generate a new and unique post ID
+    @staticmethod
+    def requestNewPID():
+        return "p200"
