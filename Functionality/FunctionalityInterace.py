@@ -9,6 +9,7 @@ class FunctionalityInterface:
     # will be provided. It must implement a hash function to create a pid
     @staticmethod
     def postQuestion(uid):
+        # Return string in sql "select * from user"
         pass
 
     # Use all the value in the argument to create a a pid. Must be unique. Do
