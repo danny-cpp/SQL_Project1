@@ -17,10 +17,7 @@ class Database(DatabaseInterface):
     # until we define to terminate it
     def __del__(self):
         self.__conn.close()
-<<<<<<< master
-=======
         print("Connection successfully terminated")
->>>>>>> (no branch): Auto stash before revert of "cm to be cherry-picked"
 
     # This method accept a UID input and a user create SQL query. If the user
     # already existed, it will throw a Boolean false, else, true
@@ -28,12 +25,6 @@ class Database(DatabaseInterface):
     def requestUIDCheck(uid):
         return True
 
-    # Call backend with a SQL string
-<<<<<<< master
-    def requestQuery(self, query_string):
-        print(query_string)
-        pass
-=======
     def requestQuery(self, query_string, retriever=True, col_name=[],
                      internal_call=False, debug_mode=False):
 
@@ -75,6 +66,4 @@ class Database(DatabaseInterface):
 
 if __name__ == '__main__':
     server = Database()
-    # server.requestQuery("SELECT * FROM users;", True)
-
->>>>>>> (no branch): Auto stash before revert of "cm to be cherry-picked"
+    server.requestQuery("SELECT * FROM users;", True)

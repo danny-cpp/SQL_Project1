@@ -1,7 +1,3 @@
-<<<<<<< master
-if __name__ == '__main__':
-    print("hi")
-=======
 from Functionality.FunctionalityInterace import *
 import Object.User
 import datetime
@@ -69,4 +65,3 @@ class Menu(FunctionalityInterface):
 
 if __name__ == '__main__':
     Menu.menuNavigate()
->>>>>>> Revert "cm to be cherry-picked"
