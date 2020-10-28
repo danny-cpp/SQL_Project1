@@ -20,14 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="234a9e5a-2a9c-4728-b2f3-3598851b79dd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Login/Display.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Object/User.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Object/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Project1_291.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Project1_291.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Functionality/FunctionalityInterace.py" beforeDir="false" afterPath="$PROJECT_DIR$/Functionality/FunctionalityInterace.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Functionality/Menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/Functionality/Menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Login/Display.py" beforeDir="false" afterPath="$PROJECT_DIR$/Login/Display.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Login/LoginInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/Login/LoginInterface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Object/User.py" beforeDir="false" afterPath="$PROJECT_DIR$/Object/User.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +73,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Functionality/Menu.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -121,6 +121,8 @@
       <option name="presentableId" value="Default" />
       <updated>1603664069380</updated>
       <workItem from="1603664070422" duration="6220000" />
+      <workItem from="1603838755933" duration="635000" />
+      <workItem from="1603839406269" duration="2305000" />
     </task>
     <servers />
   </component>
@@ -164,10 +166,11 @@
     </state>
     <state width="1348" height="214" key="GridCell.Tab.0.right/0.0.1368.882@0.0.1368.882" timestamp="1603689475706" />
     <state width="1650" height="366" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1603664735909" />
-    <state x="186" y="86" key="SettingsEditor" timestamp="1603771908690">
-      <screen x="0" y="0" width="1368" height="882" />
+    <state x="468" y="137" key="SettingsEditor" timestamp="1603838787005">
+      <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="186" y="86" key="SettingsEditor/0.0.1368.882@0.0.1368.882" timestamp="1603771908690" />
+    <state x="468" y="137" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1603838787005" />
     <state x="277" y="174" key="Vcs.Push.Dialog.v2" timestamp="1603685419917">
       <screen x="0" y="0" width="1368" height="882" />
     </state>

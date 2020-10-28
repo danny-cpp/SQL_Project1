@@ -6,11 +6,16 @@ class User:
     __city = ""
     __crdate = ""
 
-    def __int__(self,name,pwd,city):
+    def __int__(self, uid, name, pwd, city):
+        self.__uid = uid
         self.__usrname = name
         self.__pwd = pwd
         self.__city = city
         self.__crdate = datetime.datetime.now()
+
+    @staticmethod
+    def generateNewID():
+        pass
 
     def getName(self, name):
         return self.__usrname
@@ -24,10 +29,9 @@ class User:
     def getCrdate(self):
         return self.__crdate
 
-    def login(self, name, pwd):
-        # call db and search the user with name and pwd
-        # select * from user where name = '' and pwd = ''
-        pass
+    @staticmethod
+    def login(uid, pwd):
+        return # return user object
 
     def __str__(self):
         return 'Person ' + self.__uid + ' '+ self.__usrname + ', ' + self.__city + ', ' + self.__crdate

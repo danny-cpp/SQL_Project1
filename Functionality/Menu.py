@@ -2,6 +2,7 @@ import Functionality.FunctionalityInterace
 import Object.User
 import datetime
 
+
 class Menu(Functionality.FunctionalityInterace):
     # After login successfully, user will be in the navigation panel. Display all
     # options the user has.
