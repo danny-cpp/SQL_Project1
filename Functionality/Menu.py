@@ -74,9 +74,16 @@ class Menu(FunctionalityInterface):
                "SELECT P.* FROM posts P JOIN tags T ON P.pid = T.pid " +
                f"WHERE lower(T.tag) LIKE lower('%{keyword}%');")
         column_array = ['pid', 'post date', 'title', 'content', 'poster']
-        self.__sever.requestQuery(sql, retriever=True, col_name=column_array, debug_mode=True)
+        records = self.__sever.requestQuery(sql, retriever=True, col_name=column_array, internal_call=True,
+                                            fetch_many=True, debug_mode=True)
 
-        pid = input("\nPlease choose the post by type in the PID to interact with it: ")
+        # This section display them page by page
+        page_number = 0
+        Menu.printPages(records, page_number)
+
+        pid = input("\nPlease choose the post by type in the PID to interact with it, or 'back to return to main menu: ")
+        if pid == 'back':
+            return 0, None
 
         # If the user input an invalid PID we request again
         sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}'"
@@ -84,7 +91,10 @@ class Menu(FunctionalityInterface):
                                            debug_mode=True)
         while len(record) == 0:
 
-            pid = input("Invalid PID. Please choose the post by type in the PID to interact with it: ")
+            pid = input("Invalid PID. Please choose the post by type in the PID to interact with it, or 'back to return to main menu: ")
+            if pid == 'back':
+                return 0, None
+
             sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}'"
             record = self.__sever.requestQuery(sql1, retriever=True, internal_call=True,
                                                debug_mode=True)
@@ -132,6 +142,10 @@ class Menu(FunctionalityInterface):
             pass # sql = "insert into votes(pid, vdate, uid) values (" + pid + ", " + datetime.datetime.now()+ ", "+uid+");"
         return 0
 
+    # This function is for internal call only, it print pages of the record
+    @staticmethod
+    def printPages(record_list, page_number):
+        pass
 
 if __name__ == '__main__':
     Menu.menuNavigate()

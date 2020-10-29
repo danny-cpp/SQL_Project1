@@ -33,7 +33,7 @@ class Database(DatabaseInterface):
         return True
 
     def requestQuery(self, query_string, retriever=True, col_name=[],
-                     internal_call=False, debug_mode=False, fetch_many='False'):
+                     internal_call=False, debug_mode=False, fetch_many=False):
 
         # for debugging purpose, turn this off for official version
         if debug_mode:
@@ -63,9 +63,13 @@ class Database(DatabaseInterface):
             records = []
             page = cursor.fetchmany(2)
             records.append(page)
-            while len(page) != 0:
+            while True:
                 page = cursor.fetchmany(2)
-                records.
+                if len(page) == 0:
+                    break
+                records.append(page)
+
+            return records
 
     # Use this function to generate a new and unique post ID. Execute this method
     # will provide a unique PID
@@ -86,7 +90,7 @@ class Database(DatabaseInterface):
 if __name__ == '__main__':
     server = Database("myDB.db")
 
-    server.requestQuery("SELECT * FROM TAGS;")
+    print(server.requestQuery("SELECT * FROM TAGS;"))
 
     # server.requestNewPID()
     # print(server.requestUIDCheck("u600"))
