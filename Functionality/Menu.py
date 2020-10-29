@@ -76,7 +76,7 @@ class Menu(FunctionalityInterface):
         column_array = ['pid', 'post date', 'title', 'content', 'poster']
         self.__sever.requestQuery(sql, retriever=True, col_name=column_array, debug_mode=True)
 
-        pid = input("\n Please choose the post by type in the PID to interact with it: ")
+        pid = input("\nPlease choose the post by type in the PID to interact with it: ")
 
         # If the user input an invalid PID we request again
         sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}'"

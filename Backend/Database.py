@@ -33,14 +33,14 @@ class Database(DatabaseInterface):
         return True
 
     def requestQuery(self, query_string, retriever=True, col_name=[],
-                     internal_call=False, debug_mode=False):
+                     internal_call=False, debug_mode=False, fetch_many='False'):
 
         # for debugging purpose, turn this off for official version
         if debug_mode:
             print(query_string)
 
         # If the query is a retriever i.e. SELECT...
-        if retriever:
+        if not fetch_many:  # Retriever should always on, deprecated default argument 'retriever'
             cursor = self.__conn.execute(query_string)
             self.__conn.commit()
             table = PrettyTable()
@@ -55,9 +55,17 @@ class Database(DatabaseInterface):
             records = cursor.fetchall()
             return records
 
-        else:
-            self.__conn.execute(query_string)
-            self.__conn.commit()
+        elif fetch_many:
+            cursor = self.__conn.execute(query_string)
+
+            # in this section we fetch data in page. Maximum 2 objects per, then store
+            # them in a list
+            records = []
+            page = cursor.fetchmany(2)
+            records.append(page)
+            while len(page) != 0:
+                page = cursor.fetchmany(2)
+                records.
 
     # Use this function to generate a new and unique post ID. Execute this method
     # will provide a unique PID
@@ -77,7 +85,8 @@ class Database(DatabaseInterface):
 
 if __name__ == '__main__':
     server = Database("myDB.db")
-    server.requestQuery("SELECT * FROM users;", True)
-    server.requestUIDCheck("u400")
+
+    server.requestQuery("SELECT * FROM TAGS;")
+
     # server.requestNewPID()
     # print(server.requestUIDCheck("u600"))
