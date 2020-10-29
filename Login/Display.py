@@ -1,5 +1,3 @@
-import getpass
-
 from Login.LoginInterface import *
 from Object.User import *
 from Backend.Database import *
@@ -73,7 +71,7 @@ class Display(LoginInterface):
 
         pwd = input("Please enter your password: ")
         while pwd != login_authentication[0][2]:
-            pwd = getpass.getpass("Wrong password. Please enter your password again: ")
+            pwd = input("Wrong password. Please enter your password again: ")
         current_user = User(login_authentication[0][0], login_authentication[0][1], login_authentication[0][2],
                             login_authentication[0][3], login_authentication[0][4])
 
