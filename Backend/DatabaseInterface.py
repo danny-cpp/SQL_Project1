@@ -39,4 +39,5 @@ class DatabaseInterface:
 
 
 if __name__ == '__main__':
-    print(DatabaseInterface.requestQuery.__doc__)
+    pass
+    #print(DatabaseInterface.requestQuery.__doc__)

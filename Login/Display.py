@@ -11,20 +11,20 @@ class Display(LoginInterface):
     def welcomeScreen(svr):
         state = 0 # Good state
         print("\n\n________________________Welcome to SQLite Mini!________________________")
-        # Danh: What if user enter something wrong (ex: 'a')? Throw some kind of exception
-        # or ask user input again.
+
         acceptable = ['y', 'n', 'quit']
         key = input("Are you an existing user? y / n ")
-        while True:
-            if key in acceptable:
-                if key == 'y':
-                    state = Display.loginScreen(svr)
-                    break
-                if key == 'n':
-                    state = Display.createNewUser(svr)
-                    break
-                if key == 'quit':
-                    exit()
+        prompt = False
+        while not prompt:
+            if key.lower() in acceptable and key.lower() == 'y':
+                state = Display.loginScreen(svr)
+                prompt = True
+            elif key.lower() in acceptable and key.lower() == 'n':
+                state = Display.createNewUser(svr)
+                prompt = True
+
+            elif key.lower() == 'quit':
+                exit()
             else:
                 key = input("Wrong input, please try again. Are you an existing user? y / n ")
 
@@ -35,7 +35,7 @@ class Display(LoginInterface):
     # UID already exist, throw exception
     @staticmethod
     def createNewUser(svr):
-        uid = input("Please enter a unique ID: ")
+        uid = input("Please enter  unique ID of your choice: ")
         while svr.requestUIDCheck(uid):
             uid = input("UID already taken, please input another UID: ")
         usrname = input("Please enter your name: ")
@@ -44,8 +44,8 @@ class Display(LoginInterface):
         # Call for a new ID to be generated
         cr_date = svr.getCurrentTime()
         usr = User(uid, usrname, pwd, city, cr_date)
-        inp = input("Are you sure with this these information? If not, type 'back' to go to the Welcome Screen")
-        if inp == 'back':
+        inp = input("Are you sure with this these information? If not, type 'n' to go to the Welcome Screen else Hit Enter")
+        if inp.lower() == 'n':
             return None
         insert_user = ("INSERT INTO users (uid, name, pwd, city, crdate)" +
                        f" VALUES ('{uid}', '{usrname}', '{pwd}', '{city}', DATE('{cr_date}'));")
