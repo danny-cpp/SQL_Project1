@@ -26,7 +26,7 @@ class Menu(FunctionalityInterface):
         acceptable_value = ['1', '2']
         print("\n\n________________________Main menu________________________")
         print("Input the corresponding number to navigate to that option")
-        print("Type 'back' anytime you want to return to Main Menu______")
+        print("Type 'back' anytime you want to return to Main Menu")
         print("1. Post Question")
         print("2. Search Post  ")
         inp = input("Please type in the number correspond to the option you choose: ")
@@ -42,13 +42,14 @@ class Menu(FunctionalityInterface):
     # will be provided. It must implement a hash function to create a pid
     def postQuestion(self):
         uid = self.__user.getUid()
+        print("\n\n________________________Make Post________________________")
         title = input("What is your title? ")
         body = input("What do you want to post? ")
         date = self.__sever.getCurrentTime()
         pid = self.__sever.requestNewPID()
         sql = ("INSERT INTO POSTS (pid, pdate, title, body, poster) " +
-               f"VALUES ('{pid}','{date}','{title}','{body}','{uid}');")
-        print(sql)
+               f"VALUES ('{pid}',DATE('{date}'),'{title}','{body}','{uid}');")
+        self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
         return 0
 
     # Accepting keyword, order SQL query
