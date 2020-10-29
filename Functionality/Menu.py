@@ -11,6 +11,7 @@ class Menu(FunctionalityInterface):
         self.__sever = svr
         self.__user = usr
         self.__state = state
+        self.__pid
 
         # if state == 0:
         #     Menu.menuNavigate()
@@ -54,9 +55,17 @@ class Menu(FunctionalityInterface):
 
     # Accepting keyword, order SQL query
     def searchPost(self):
-        keyword = input("Search Keyword: ")
-        sql = "selet * from posts where title like '%" + keyword+"%';"
-        return 0
+        print("\n\n_______________________Search Post________________________")
+        keyword = input("Search Keyword: ").lower()
+        sql = ("SELECT * FROM posts P " +
+               f"WHERE lower(P.title) LIKE lower('%{keyword}%')" +
+               "UNION" +
+               "SELECT * FROM posts P" +
+               f"WHERE lower(P.body) LIKE lower('%{keyword}%')" +
+               "UNION" +
+               "SELECT P.* FROM posts P JOIN tags T ON P.pid = T.pid" +
+               f"WHERE lower(T.tag) LIKE lower('%{keyword}%');")
+        return 3
 
     # Allows the user to choose the post by asking the pid
     @staticmethod
