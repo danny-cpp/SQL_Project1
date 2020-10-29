@@ -46,7 +46,7 @@ class Menu(FunctionalityInterface):
         body = input("What do you want to post? ")
         date = self.__sever.getCurrentTime()
         pid = self.__sever.requestNewPID()
-        sql = ("INSERT INTO POSTS(pid, pdate, title, body, poster) " +
+        sql = ("INSERT INTO POSTS (pid, pdate, title, body, poster) " +
                f"VALUES ('{pid}','{date}','{title}','{body}','{uid}');")
         print(sql)
         return 0

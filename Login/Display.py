@@ -50,8 +50,9 @@ class Display(LoginInterface):
         insert_user = ("INSERT INTO users (uid, name, pwd, city, crdate)" +
                        f" VALUES ('{uid}', '{usrname}', '{pwd}', '{city}', '{cr_date}');")
         svr.requestQuery(insert_user)
-        return usr
 
+        print("Account successfully created, you will be login right now!")
+        return usr
     # This method should ask the user for username and pass word. Password should be
     # hidden.
     @staticmethod
@@ -62,8 +63,17 @@ class Display(LoginInterface):
             uid = input("UID have not registered, check your UID or enter 'back' to WelcomeScreen: ")
             if uid == 'back':
                 return None
+
+        query_string = f"SELECT * FROM USERS U WHERE U.UID = '{uid}';"
+        login_authentication = svr.requestQuery(query_string, retriever=True, col_name=[],
+                                                internal_call=True, debug_mode=False)
+
         pwd = input("Please enter your password: ")
-        current_user = User.login(uid, pwd)
+        while pwd != login_authentication[0][2]:
+            pwd = input("Wrong password. Please enter your password again: ")
+        current_user = User(login_authentication[0][0], login_authentication[0][1], login_authentication[0][2],
+                            login_authentication[0][3], login_authentication[0][4])
+
         return current_user
 
 

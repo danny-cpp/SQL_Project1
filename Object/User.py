@@ -10,7 +10,7 @@ class User:
         self.__city = city
         self.__crdate = crdate
 
-    def getName(self, name):
+    def getName(self):
         return self.__usrname
 
     def getUid(self):
