@@ -2,6 +2,7 @@ import sqlite3
 
 from Backend.DatabaseInterface import *
 from prettytable import PrettyTable
+from datetime import datetime
 
 
 # Database object control and establish, as well as terminate connection to the server.
@@ -13,7 +14,7 @@ class Database(DatabaseInterface):
     def __init__(self, path):
         self.__path = path
         self.__conn = sqlite3.connect(self.__path)
-        print("Open database successfully")
+        print("Connecting to database successfully")
 
     # The lifetime of the connection is defined to be when the connection object is created
     # until we define to terminate it
@@ -69,6 +70,10 @@ class Database(DatabaseInterface):
         pid = int(pid[1:]) + 100
         pid = 'p' + str(pid)
         return pid
+
+    def getCurrentTime(self):
+        today_date = datetime.today().strftime('%Y-%m-%d')
+        return today_date
 
 
 if __name__ == '__main__':

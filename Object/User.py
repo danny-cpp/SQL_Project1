@@ -3,12 +3,12 @@ from Backend.Database import *
 
 
 class User:
-    def __init__(self, uid, name, pwd, city):
+    def __init__(self, uid, name, pwd, city, crdate):
         self.__uid = uid
         self.__usrname = name
         self.__pwd = pwd
         self.__city = city
-        self.__crdate = datetime.datetime.now()
+        self.__crdate = crdate
 
     def getName(self, name):
         return self.__usrname

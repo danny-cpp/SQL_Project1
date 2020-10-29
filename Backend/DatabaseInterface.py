@@ -33,6 +33,10 @@ class DatabaseInterface:
         # Return a new and unique pid
         pass
 
+    # Return the time at moment of issue in format YYYY-MM-DD
+    def getCurrentTime(self):
+        pass
+
 
 if __name__ == '__main__':
     print(DatabaseInterface.requestQuery.__doc__)

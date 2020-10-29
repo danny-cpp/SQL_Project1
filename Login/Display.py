@@ -42,12 +42,13 @@ class Display(LoginInterface):
         pwd = input("Please enter your password: ")
         city = input("Please enter your city: ")
         # Call for a new ID to be generated
-        usr = User(uid, usrname, pwd, city)
+        cr_date = svr.getCurrentTime()
+        usr = User(uid, usrname, pwd, city, cr_date)
         inp = input("Are you sure with this these information? If not, type 'back' to go to the Welcome Screen")
         if inp == 'back':
             return None
-        insert_user = ('insert into users(uid, name, pwd, city, crdate) value (' + str(uid) +
-                       ", " + usrname + ", "+ pwd + ", " + city + ", " + str(usr.getCrdate()))
+        insert_user = ("INSERT INTO users (uid, name, pwd, city, crdate)" +
+                       f" VALUES ('{uid}', '{usrname}', '{pwd}', '{city}', '{cr_date}');")
         svr.requestQuery(insert_user)
         return usr
 
