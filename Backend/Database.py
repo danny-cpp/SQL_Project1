@@ -90,7 +90,7 @@ class Database(DatabaseInterface):
 if __name__ == '__main__':
     server = Database("myDB.db")
 
-    print(server.requestQuery("SELECT * FROM TAGS;"))
+    print(server.requestQuery("SELECT * FROM TAGS;", fetch_many=True))
 
     # server.requestNewPID()
     # print(server.requestUIDCheck("u600"))
