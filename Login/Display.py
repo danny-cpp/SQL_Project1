@@ -36,7 +36,7 @@ class Display(LoginInterface):
     @staticmethod
     def createNewUser(svr):
         uid = input("Please enter a unique ID: ")
-        while not svr.requestUIDCheck(uid):
+        while svr.requestUIDCheck(uid):
             uid = input("UID already taken, please input another UID: ")
         usrname = input("Please enter your name: ")
         pwd = input("Please enter your password: ")
@@ -48,18 +48,19 @@ class Display(LoginInterface):
         if inp == 'back':
             return None
         insert_user = ("INSERT INTO users (uid, name, pwd, city, crdate)" +
-                       f" VALUES ('{uid}', '{usrname}', '{pwd}', '{city}', '{cr_date}');")
+                       f" VALUES ('{uid}', '{usrname}', '{pwd}', '{city}', DATE('{cr_date}'));")
         svr.requestQuery(insert_user)
 
         print("Account successfully created, you will be login right now!")
         return usr
+
     # This method should ask the user for username and pass word. Password should be
     # hidden.
     @staticmethod
     def loginScreen(svr):
         # Return a user object, where it has all the attributes bellow
         uid = input("Please enter your UID: ")
-        while svr.requestUIDCheck(uid):
+        while not svr.requestUIDCheck(uid):
             uid = input("UID have not registered, check your UID or enter 'back' to WelcomeScreen: ")
             if uid == 'back':
                 return None

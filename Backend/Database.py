@@ -23,14 +23,14 @@ class Database(DatabaseInterface):
         print("Connection successfully terminated")
 
     # This method accept a UID input and a user create SQL query. If the user
-    # already existed, it will throw a Boolean false, else, true
+    # already existed, it will throw a Boolean Tru, else, False
     def requestUIDCheck(self, uid):
-        find_user_query = f"SELECT * FROM USERS U WHERE U.UID = '{uid}';"
-        user_record = self.requestQuery(find_user_query, internal_call=False, debug_mode=True)
-        if len(uid) == 0:
-            return True
+        find_user_SQL = f"SELECT * FROM USERS U WHERE U.UID = '{uid}';"
+        user_record = self.requestQuery(find_user_SQL, internal_call=True, debug_mode=True)
+        if len(user_record) == 0:
+            return False
 
-        return False
+        return True
 
     def requestQuery(self, query_string, retriever=True, col_name=[],
                      internal_call=False, debug_mode=False):
@@ -42,18 +42,17 @@ class Database(DatabaseInterface):
         # If the query is a retriever i.e. SELECT...
         if retriever:
             cursor = self.__conn.execute(query_string)
-            records = self.__conn.execute(query_string).fetchall()
             self.__conn.commit()
             table = PrettyTable()
             table.field_names = col_name
 
-            print(cursor.fetchall())
             # If it is not an internal call, display
             if not internal_call:
                 for row in cursor:
                     table.add_row(row)
                 print(table)
 
+            records = cursor.fetchall()
             return records
 
         else:
@@ -78,7 +77,7 @@ class Database(DatabaseInterface):
 
 if __name__ == '__main__':
     server = Database("myDB.db")
-    uid = 'u400'
-    record = server.requestQuery("SELECT * FROM USERS;")
-    print(len(record))
+    server.requestQuery("SELECT * FROM users;", True)
+    server.requestUIDCheck("u400")
+    # server.requestNewPID()
     # print(server.requestUIDCheck("u600"))
