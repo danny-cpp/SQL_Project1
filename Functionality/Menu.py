@@ -95,7 +95,7 @@ class Menu(FunctionalityInterface):
             tmp_bool = False
 
         # If the user input an invalid PID we request again
-        sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}'"
+        sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}';"
         record = self.__sever.requestQuery(sql1, retriever=True, internal_call=True,
                                            debug_mode=True)
 
