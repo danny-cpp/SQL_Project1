@@ -80,7 +80,7 @@ class Menu(FunctionalityInterface):
                                             fetch_many=True, debug_mode=True)
 
         # This section display them page by page
-        bookkeeper = Pages(records, 0)
+        bookkeeper = Pages(records, 0, col_name=column_array)
         bookkeeper.printPages()
         tmp_bool = True
 
@@ -93,7 +93,6 @@ class Menu(FunctionalityInterface):
         elif pid == 'next':
             bookkeeper.nextPage()
             tmp_bool = False
-
 
         # If the user input an invalid PID we request again
         sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}'"
@@ -124,7 +123,6 @@ class Menu(FunctionalityInterface):
         return 3, pid
 
     # Post-Action-Group
-
 
     # This window will be called if a user chose a post
     def postActionMenu(self):
