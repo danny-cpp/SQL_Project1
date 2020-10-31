@@ -133,11 +133,15 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         column_array = ['pid', 'post date', 'title', 'content', 'poster']
         sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{self.__chosenPID}';"
         self.__sever.requestQuery(sql1, retriever=True, col_name=column_array, debug_mode=True)
+        privilege_status = self.__sever.checkIfPrivilege(self.__user)
 
         print("What do you want to do with this post? ")
         print("Type 'back' anytime you want to return to Main Menu")
         print("1. Answer Question")
         print("2. Vote Post")
+
+        if privilege_status:
+            print()
 
         inp = input("Please type in the number correspond to the option you choose: ")
         while inp not in acceptable_value:
@@ -199,7 +203,6 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     # Mark as accepted. A privileged user can mark an answer post as accepted
     # Order a SQL query here
     # def MMA(self):
-
 
 
 if __name__ == '__main__':

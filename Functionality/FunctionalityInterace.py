@@ -5,7 +5,6 @@ class FunctionalityInterface:
 
     # After login successfully, user will be in the navigation panel. Display all
     # options the user has.
-    @staticmethod
     def MainMenu():
         pass
 
@@ -17,10 +16,6 @@ class FunctionalityInterface:
 
     # Accepting keyword, order SQL query
     def searchPost(self):
-        pass
-
-    # Check if a post is an answer
-    def checkIfAnswer(self):
         pass
 
     # Post-Action-Group

@@ -47,6 +47,14 @@ class DatabaseInterface:
     def requestVoteCheck(self, uid, pid):
         pass
 
+    # Check if a user is a privilege user
+    def checkIfPrivilege(self, uid):
+        pass
+
+    # Check if a post is an answer
+    def checkIfAnswer(self):
+        pass
+
 
 if __name__ == '__main__':
     print(DatabaseInterface.requestQuery.__doc__)
