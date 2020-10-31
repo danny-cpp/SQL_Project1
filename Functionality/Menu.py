@@ -59,7 +59,10 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         pid = self.__sever.requestNewPID()
         sql = ("INSERT INTO POSTS (pid, pdate, title, body, poster) " +
                f"VALUES ('{pid}',DATE('{date}'),'{title}','{body}','{uid}');")
+        update_question_sql = ("INSERT INTO QUESTIONS (pid, theaid) " +
+               f"VALUES ('{pid}', 'Null';")
         self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
+        self.__sever.requestQuery(update_question_sql, retriever=False, debug_mode=True)
         return 0, None
 
     # Accepting keyword, order SQL query
@@ -163,6 +166,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         date = self.__sever.getCurrentTime()
         pid = self.__sever.requestNewPID()
         qid = self.__chosenPID
+
         sql = ("INSERT INTO POSTS (pid, pdate, title, body, poster) " +
                f"VALUES ('{pid}',DATE('{date}'),'{title}','{body}','{uid}');")
         self.__sever.requestQuery(sql, retriever=False, internal_call=True, debug_mode=True)
