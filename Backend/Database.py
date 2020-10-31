@@ -116,6 +116,14 @@ class Database(DatabaseInterface):
             return False
         return True
 
+    # Check if a post is an answer
+    def checkIfAnswer(self, pid):
+        check_answer_SQL = f"SELECT * FROM ANSWERS A WHERE A.PID = '{pid}';"
+        answer_record = self.requestQuery(check_answer_SQL, internal_call=True, debug_mode=True)
+        if len(answer_record) == 0:
+            return False
+        return True
+
 
 if __name__ == '__main__':
     server = Database("myDB.db")

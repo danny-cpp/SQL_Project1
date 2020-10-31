@@ -5,7 +5,7 @@ class FunctionalityInterface:
 
     # After login successfully, user will be in the navigation panel. Display all
     # options the user has.
-    def MainMenu():
+    def MainMenu(self):
         pass
 
     # Accept string as input, return SQL string statement update. Assume that UID
@@ -21,11 +21,11 @@ class FunctionalityInterface:
     # Post-Action-Group
 
     # Accepting string answer, order a SQL query update
-    def answerQuestion(pid):
+    def answerQuestion(self):
         pass
 
     # Order an sql string to update vote according to pid
-    def vote(pid, uid):
+    def vote(self):
         pass
 
 

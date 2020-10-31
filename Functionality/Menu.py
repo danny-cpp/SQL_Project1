@@ -140,8 +140,19 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         print("1. Answer Question")
         print("2. Vote Post")
 
+        # If a user is a privilege user, they have more options than normal
         if privilege_status:
-            print()
+            acceptable_value = ['1', '2', '3', '4', '5', 'back']
+
+            print("\nYou are a privilege user, these options are unique to you: ")
+            print("3. Give a badge to this poster")
+            print("4. Add a tag to this post")
+            print("5. Edit this post")
+
+            if self.__sever.checkIfAnswer(self.__chosenPID):
+                acceptable_value = ['1', '2', '3', '4', '5', '6', 'back']
+                print("6. Mark as accepted")
+
 
         inp = input("Please type in the number correspond to the option you choose: ")
         while inp not in acceptable_value:
@@ -153,6 +164,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             return 4, self.__chosenPID
         if inp == '2':
             return 5, self.__chosenPID
+        if inp == '3':
+            return 
 
     # Accepting string answer, order a SQL query update
     def answerQuestion(self):
