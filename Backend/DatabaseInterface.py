@@ -37,6 +37,16 @@ class DatabaseInterface:
     def getCurrentTime(self):
         pass
 
+    # Use this function to generate a new and unique vote ID. Execute this method
+    # will provide a unique vno
+    def requestNewVno(self):
+        pass
+
+    # This method check the statue of user for special post. If the user
+    # already voted, it will throw a Boolean Tru, else, False
+    def requestVoteCheck(self, uid, pid):
+        pass
+
 
 if __name__ == '__main__':
     print(DatabaseInterface.requestQuery.__doc__)

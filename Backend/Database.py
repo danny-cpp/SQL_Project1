@@ -57,6 +57,7 @@ class Database(DatabaseInterface):
 
         elif fetch_many:
             cursor = self.__conn.execute(query_string)
+            self.__conn.commit()
 
             # in this section we fetch data in page. Maximum 2 objects per, then store
             # them in a list
@@ -85,6 +86,26 @@ class Database(DatabaseInterface):
     def getCurrentTime(self):
         today_date = datetime.today().strftime('%Y-%m-%d')
         return today_date
+
+    # Use this function to generate a new and unique vote ID. Execute this method
+    # will provide a unique vno
+    def requestNewVno(self):
+        get_new_vno_SQL = "SELECT MAX(V.VNO) FROM VOTES V;"
+        print(get_new_vno_SQL)
+        vno = self.requestQuery(get_new_vno_SQL, True, internal_call=True)
+        vno = vno[0][0]
+        vno = int(vno[1:]) + 100
+        vno = 'v' + str(vno)
+        return vno
+
+    # This method check the statue of user for special post. If the user
+    # already voted, it will throw a Boolean Tru, else, False
+    def requestVoteCheck(self, uid, pid):
+        find_vote_SQL = f"SELECT * FROM VOTES V WHERE V.UID = '{uid}' AND V.PID = '{pid}';"
+        vote_record = self.requestQuery(find_vote_SQL, internal_call=True, debug_mode=True)
+        if len(vote_record) == 0:
+            return False
+        return True
 
 
 if __name__ == '__main__':

@@ -24,6 +24,8 @@ class Menu(FunctionalityInterface):
             self.postActionMenu()
         elif state == 4:
             self.answerQuestion()
+        elif state == 5:
+            self.vote()
 
     # After login successfully, user will be in the navigation panel. Display all
     # options the user has.
@@ -58,10 +60,6 @@ class Menu(FunctionalityInterface):
         self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
         return 0, None
 
-
-    #########################################################
-    ## This section needs more work to move cursor around!
-    #########################################################
     # Accepting keyword, order SQL query
     def searchPost(self):
         print("\n\n_______________________Search Post________________________")
@@ -152,17 +150,50 @@ class Menu(FunctionalityInterface):
 
     # Accepting string answer, order a SQL query update
     def answerQuestion(self):
-        answer = input("Please enter your answer: ")
-        # sql = "update posts set body = " + answer +" where pid = " + pid + ";"
-        return 0
+        uid = self.__user.getUid()
+        print("\n\n________________________Make Answer________________________")
+        title = input("What is your title? ")
+        body = input("What do you want to answer? ")
+        date = self.__sever.getCurrentTime()
+        pid = self.__sever.requestNewPID()
+        qid = self.__chosenPID
+        sql = ("INSERT INTO POSTS (pid, pdate, title, body, poster) " +
+               f"VALUES ('{pid}',DATE('{date}'),'{title}','{body}','{uid}');")
+        self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
+        sql = ("INSERT INTO ANSWERS (pid, qid) " +
+               f"VALUES ('{pid}','{qid}');")
+        self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
+        return 3, qid
 
     # Order an sql string to update vote according to pid
     def vote(self):
+        uid = self.__user.getUid()
+        date = self.__sever.getCurrentTime()
+        pid = self.__chosenPID
+
+        acceptable = ['y', 'n', 'quit']
+        print("\n\n________________________Make Vote________________________")
         vote = input("Do you want to vote the post? y/n")
-        if vote == 'y':
-            pass # sql = "insert into votes(pid, vdate, uid) values (" + pid + ", " + datetime.datetime.now()+ ", "+uid+");"
-        return 0
+        while vote in acceptable:
+            if vote == 'y':
+                break
+            if vote == 'n':
+                return 3, pid
+            if vote == 'quit':
+                exit()
+            else:
+                key = input("Wrong input, Do you want to vote the post? y/n ")
+
+        if self.__sever.requestVoteCheck(uid, pid):
+            print("You already vote this post!")
+            return 3, pid
+        vno = self.__sever.requestNewVno()
+        sql = ("INSERT INTO votes (pid, vno, vdate, uid) " +
+               f"VALUES ('{pid}','{vno}', DATE('{date}'), '{uid}');")
+        self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
+        return 3, pid
 
 
 if __name__ == '__main__':
     Menu.menuNavigate()
+    server = Database('../Backend/myDB.db')
