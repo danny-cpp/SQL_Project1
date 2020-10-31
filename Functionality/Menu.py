@@ -1,9 +1,10 @@
 from Functionality.FunctionalityInterace import *
+from Functionality.PrivilegedInterface import *
 from Functionality.Pages import Pages
 from Object.User import *
 
 
-class Menu(FunctionalityInterface):
+class Menu(FunctionalityInterface, PrivilegeInterface):
 
     # As we build a finite state machine here, each number will be each state of this machine.
     # For this particular case: 0 = Main Menu, 1 = Post Question, 2 = Post Question, 3 = Search Post
@@ -14,7 +15,7 @@ class Menu(FunctionalityInterface):
         self.__state = state
         self.__chosenPID = chosenPID # Store the current current chosen post ID
 
-
+    # This is the entry point of the FSM, it call correspond functions with required information
     def menuNavigate(self):
         if self.__state == 0:
             return self.MainMenu()
@@ -133,7 +134,7 @@ class Menu(FunctionalityInterface):
         sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{self.__chosenPID}';"
         self.__sever.requestQuery(sql1, retriever=True, col_name=column_array, debug_mode=True)
 
-        print("What do you want to do with this post?")
+        print("What do you want to do with this post? ")
         print("Type 'back' anytime you want to return to Main Menu")
         print("1. Answer Question")
         print("2. Vote Post")
@@ -160,10 +161,11 @@ class Menu(FunctionalityInterface):
         qid = self.__chosenPID
         sql = ("INSERT INTO POSTS (pid, pdate, title, body, poster) " +
                f"VALUES ('{pid}',DATE('{date}'),'{title}','{body}','{uid}');")
-        self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
+        self.__sever.requestQuery(sql, retriever=False, internal_call=True, debug_mode=True)
         sql = ("INSERT INTO ANSWERS (pid, qid) " +
                f"VALUES ('{pid}','{qid}');")
-        self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
+        self.__sever.requestQuery(sql, retriever=False, internal_call=True, debug_mode=True)
+        print("Successfully answered post " + str(qid))
         return 3, qid
 
     # Order an sql string to update vote according to pid
@@ -174,7 +176,7 @@ class Menu(FunctionalityInterface):
 
         acceptable = ['y', 'n', 'quit']
         print("\n\n________________________Make Vote________________________")
-        vote = input("Do you want to vote the post? y/n")
+        vote = input("Do you want to vote the post? y/n ")
         while vote in acceptable:
             if vote == 'y':
                 break

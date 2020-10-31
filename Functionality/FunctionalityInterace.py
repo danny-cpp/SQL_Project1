@@ -1,4 +1,8 @@
 class FunctionalityInterface:
+    # This is the entry point of the FSM, it call correspond functions with required information
+    def menuNavigate(self):
+        pass
+
     # After login successfully, user will be in the navigation panel. Display all
     # options the user has.
     @staticmethod
