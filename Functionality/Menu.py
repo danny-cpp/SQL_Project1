@@ -14,23 +14,24 @@ class Menu(FunctionalityInterface):
         self.__state = state
         self.__chosenPID = chosenPID # Store the current current chosen post ID
 
-        # if state == 0:
-        #     Menu.menuNavigate()
-        if state == 1:
-            self.postQuestion()
-        elif state == 2:
-            self.searchPost()
-        elif state == 3:
-            self.postActionMenu()
-        elif state == 4:
-            self.answerQuestion()
-        elif state == 5:
-            self.vote()
+
+    def menuNavigate(self):
+        if self.__state == 0:
+            return self.MainMenu()
+        if self.__state == 1:
+            return self.postQuestion()
+        elif self.__state == 2:
+            return self.searchPost()
+        elif self.__state == 3:
+            return self.postActionMenu()
+        elif self.__state == 4:
+            return self.answerQuestion()
+        elif self.__state == 5:
+            return self.vote()
 
     # After login successfully, user will be in the navigation panel. Display all
     # options the user has.
-    @staticmethod
-    def menuNavigate():
+    def MainMenu(self):
         acceptable_value = ['1', '2']
         print("\n\n________________________Main menu________________________")
         print("Input the corresponding number to navigate to that option")
@@ -113,7 +114,7 @@ class Menu(FunctionalityInterface):
                 tmp_bool = False
                 continue
 
-            sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}'"
+            sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}';"
             record = self.__sever.requestQuery(sql1, retriever=True, internal_call=True,
                                                debug_mode=True)
 
@@ -129,10 +130,10 @@ class Menu(FunctionalityInterface):
         acceptable_value = ['1', '2', 'back']
 
         column_array = ['pid', 'post date', 'title', 'content', 'poster']
-        sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{self.__chosenPID}'"
+        sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{self.__chosenPID}';"
         self.__sever.requestQuery(sql1, retriever=True, col_name=column_array, debug_mode=True)
 
-        print("Input the corresponding number to navigate to that option")
+        print("What do you want to do with this post?")
         print("Type 'back' anytime you want to return to Main Menu")
         print("1. Answer Question")
         print("2. Vote Post")
@@ -195,5 +196,5 @@ class Menu(FunctionalityInterface):
 
 
 if __name__ == '__main__':
-    Menu.menuNavigate()
+    Menu.MainMenu()
     server = Database('../Backend/myDB.db')

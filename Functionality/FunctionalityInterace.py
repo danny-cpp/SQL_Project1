@@ -2,7 +2,7 @@ class FunctionalityInterface:
     # After login successfully, user will be in the navigation panel. Display all
     # options the user has.
     @staticmethod
-    def menuNavigate():
+    def MainMenu():
         pass
 
     # Accept string as input, return SQL string statement update. Assume that UID
