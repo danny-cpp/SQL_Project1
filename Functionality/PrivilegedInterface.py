@@ -1,7 +1,6 @@
 class PrivilegeInterface:
     # Mark as accepted. A privileged user can mark an answer post as accepted
-    # Order a SQL query here
-    @staticmethod
+    # Order a SQL query hered
     def MMA(pid):
         pass
 

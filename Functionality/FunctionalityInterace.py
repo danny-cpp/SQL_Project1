@@ -19,19 +19,18 @@ class FunctionalityInterface:
     def searchPost(self):
         pass
 
-    # Allows the user to choose the post by asking the pid
-    @staticmethod
-    def choosePost():
+    # Check if a post is an answer
+    def checkIfAnswer(self):
         pass
 
     # Post-Action-Group
 
     # Accepting string answer, order a SQL query update
-    @staticmethod
     def answerQuestion(pid):
         pass
 
     # Order an sql string to update vote according to pid
-    @staticmethod
     def vote(pid, uid):
         pass
+
+

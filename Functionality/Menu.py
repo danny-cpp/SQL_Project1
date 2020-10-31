@@ -196,6 +196,11 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
         return 3, pid
 
+    # Mark as accepted. A privileged user can mark an answer post as accepted
+    # Order a SQL query here
+    # def MMA(self):
+
+
 
 if __name__ == '__main__':
     Menu.MainMenu()
