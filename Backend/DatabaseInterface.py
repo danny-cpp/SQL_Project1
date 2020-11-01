@@ -63,5 +63,11 @@ class DatabaseInterface:
     def getPost(self, pid):
         pass
 
+    # Check the user with on a given date received a badge or not. If they already
+    # received a badge, return True
+    def checkBadgeGranted(self, uid, date):
+        pass
+
+
 if __name__ == '__main__':
     print(DatabaseInterface.requestQuery.__doc__)
