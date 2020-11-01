@@ -7,7 +7,7 @@ class PrivilegeInterface:
     def giveBadge(self):
         pass
 
-    # Ask for tags as string input, then issue SQL
+    # Add tag to the post
     def addTags(self):
         pass
 

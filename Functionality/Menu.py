@@ -31,6 +31,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             return self.vote()
         elif self.__state == 6:
             return self.giveBadge()
+        elif self.__state == 7:
+            return self.addTags()
         elif self.__state == 8:
             return self.editPostContent()
         elif self.__state == 9:
@@ -291,6 +293,15 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         print(f"{poster} {post_date} {inp}")
         self.__sever.requestQuery(sql, internal_call=True, retriever=False, debug_mode=True)
 
+    def addTags(self):
+        print("\n______________________Add tag_______________________")
+        inp = input("Choose a keyword as a tag to add to this post: ")
+
+        sql = f"INSERT INTO TAGS(PID, TAG) VALUES ('{self.__chosenPID}', '{inp}')"
+        self.__sever.requestQuery(sql, retriever=False, internal_call=True, debug_mode=True)
+
+        return 3, self.__chosenPID
+
     # update the chosen post by changing the body and/or title of the post
     def editPostContent(self):
         uid = self.__user.getUid()
@@ -324,5 +335,5 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 if __name__ == '__main__':
     server = Database('../Backend/myDB.db')
     dummy = User('u500', 'D', 'abc', 'Edmonton', '2020-08-08')
-    window = Menu(server, dummy, 6, 'p100')
+    window = Menu(server, dummy, 7, 'p700')
     window.menuNavigate()
