@@ -81,48 +81,35 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         column_array = ['pid', 'post date', 'title', 'content', 'poster']
         records = self.__sever.requestQuery(sql, retriever=True, col_name=column_array, internal_call=True,
                                             fetch_many=True, debug_mode=True)
-
+        available_pid = []
+        for page in records:
+            for line in page:
+                available_pid.append(line[0])
         # This section display them page by page
         bookkeeper = Pages(records, 0, col_name=column_array)
         bookkeeper.printPages()
-        tmp_bool = True
-
-        pid = input("Choose the post by type in the PID to interact with it, or 'back to return to main menu: ")
-        if pid == 'back':
-            return 0, None
-        elif pid == 'prev':
-            bookkeeper.prevPage()
-            tmp_bool = False
-        elif pid == 'next':
-            bookkeeper.nextPage()
-            tmp_bool = False
-
-        # If the user input an invalid PID we request again
-        sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}';"
-        record = self.__sever.requestQuery(sql1, retriever=True, internal_call=True,
-                                           debug_mode=True)
-
-        while len(record) == 0:
+        tmp_bool = False
+        search_pid = list()
+        while len(search_pid) == 0:
             if tmp_bool: print("Invalid PID, ", end="")
+            tmp_bool = False
             pid = input("Please choose the post by type in the PID to interact with it, or 'back' " +
                         "to return to main menu: ")
-
             if pid == 'back':
                 return 0, None
             elif pid == 'prev':
                 bookkeeper.prevPage()
-                tmp_bool = False
                 continue
             elif pid == 'next':
                 bookkeeper.nextPage()
-                tmp_bool = False
                 continue
-
-            sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}';"
-            record = self.__sever.requestQuery(sql1, retriever=True, internal_call=True,
+            elif pid not in available_pid:
+                tmp_bool = True
+            else:
+                sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}';"
+                search_pid = self.__sever.requestQuery(sql1, retriever=True, internal_call=True,
                                                debug_mode=True)
-
-            tmp_bool = True
+                tmp_bool = True
         return 3, pid
 
     # Post-Action-Group
@@ -166,7 +153,6 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         date = self.__sever.getCurrentTime()
         pid = self.__sever.requestNewPID()
         qid = self.__chosenPID
-
         sql = ("INSERT INTO POSTS (pid, pdate, title, body, poster) " +
                f"VALUES ('{pid}',DATE('{date}'),'{title}','{body}','{uid}');")
         self.__sever.requestQuery(sql, retriever=False, internal_call=True, debug_mode=True)

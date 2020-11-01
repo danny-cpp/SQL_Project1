@@ -9,4 +9,4 @@ class Dog:
         return self.__name
 
 if __name__ == '__main__':
-    Dog("rock")
+    pass
