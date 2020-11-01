@@ -109,10 +109,9 @@ class Database(DatabaseInterface):
 
     # Check if a user is a privilege user
     def checkIfPrivilege(self, uid):
-        uid = self.__user.getUid()
         sql = f"SELECT * FROM PRIVILEGED P WHERE P.UID = '{uid}';"
-        record = self.__sever.requestQuery(sql, internal_call=True, debug_mode=True)
-        if len(record == 0):
+        record = self.requestQuery(sql, internal_call=True, debug_mode=True)
+        if len(record) == 0:
             return False
         return True
 

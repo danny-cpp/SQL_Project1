@@ -24,7 +24,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         elif self.__state == 2:
             return self.searchPost()
         elif self.__state == 3:
-            return self.postActionMenu()
+            return self.postActionMenu
         elif self.__state == 4:
             return self.answerQuestion()
         elif self.__state == 5:
@@ -59,7 +59,12 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         pid = self.__sever.requestNewPID()
         sql = ("INSERT INTO POSTS (pid, pdate, title, body, poster) " +
                f"VALUES ('{pid}',DATE('{date}'),'{title}','{body}','{uid}');")
+
+        update_question_sql = ("INSERT INTO QUESTIONS (pid) " +
+                               f"VALUES ('{pid}');")
+
         self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
+        self.__sever.requestQuery(update_question_sql, retriever=False, debug_mode=True)
         return 0, None
 
     # Accepting keyword, order SQL query
@@ -125,34 +130,38 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     # Post-Action-Group
 
     # This window will be called if a user chose a post
+    @property
     def postActionMenu(self):
         print("\n_______________________Action Menu________________________")
         print("You have chosen post " + self.__chosenPID)
-        acceptable_value = ['1', '2', 'back']
+        acceptable_value = ['1', 'back']
 
         column_array = ['pid', 'post date', 'title', 'content', 'poster']
         sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{self.__chosenPID}';"
         self.__sever.requestQuery(sql1, retriever=True, col_name=column_array, debug_mode=True)
-        privilege_status = self.__sever.checkIfPrivilege(self.__user)
+        privilege_status = self.__sever.checkIfPrivilege(self.__user.getUid())
+        post_is_answer = self.__sever.checkIfAnswer(self.__chosenPID)
 
         print("What do you want to do with this post? ")
         print("Type 'back' anytime you want to return to Main Menu")
-        print("1. Answer Question")
-        print("2. Vote Post")
+        print("1. Vote Post")
+
+        if not post_is_answer:
+            acceptable_value.append('2')
+            print("2. Answer Question")
 
         # If a user is a privilege user, they have more options than normal
         if privilege_status:
-            acceptable_value = ['1', '2', '3', '4', '5', 'back']
+            acceptable_value.extend(['3', '4', '5'])
 
             print("\nYou are a privilege user, these options are unique to you: ")
             print("3. Give a badge to this poster")
             print("4. Add a tag to this post")
             print("5. Edit this post")
 
-            if self.__sever.checkIfAnswer(self.__chosenPID):
-                acceptable_value = ['1', '2', '3', '4', '5', '6', 'back']
+            if post_is_answer:
+                acceptable_value.append('6')
                 print("6. Mark as accepted")
-
 
         inp = input("Please type in the number correspond to the option you choose: ")
         while inp not in acceptable_value:
@@ -160,12 +169,18 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
         if inp == 'back':
             return 0, None
-        if inp == '1':
-            return 4, self.__chosenPID
-        if inp == '2':
+        if inp == '1':                      # Vote post
             return 5, self.__chosenPID
-        if inp == '3':
-            return 
+        if inp == '2':                      # Answer (only if it is not an answer itself)
+            return 4, self.__chosenPID
+        if inp == '3':                      # Give badge to poster
+            return 6, self.__chosenPID
+        if inp == '4':                      # Add tag to this post
+            return 7, self.__chosenPID
+        if inp == '5':                      # Edit this post
+            return 8, self.__chosenPID
+        if inp == '6':                      # Mark as accepted
+            return 9, self.__chosenPID
 
     # Accepting string answer, order a SQL query update
     def answerQuestion(self):
