@@ -29,6 +29,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             return self.answerQuestion()
         elif self.__state == 5:
             return self.vote()
+        elif self.__state == 6:
+            return self.giveBadge()
         elif self.__state == 9:
             return self.MMA()
 
@@ -115,7 +117,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             else:
                 sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}';"
                 search_pid = self.__sever.requestQuery(sql1, retriever=True, internal_call=True,
-                                               debug_mode=True)
+                                                       debug_mode=True)
                 tmp_bool = True
         return 3, pid
 
@@ -228,14 +230,49 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         get_question_sql = f"SELECT A.QID FROM ANSWERS A WHERE A.PID = '{self.__chosenPID}';"
         correspond_question = self.__sever.requestQuery(get_question_sql, internal_call=True, debug_mode=True)
         qid = str(correspond_question[0][0])
+
+        check_AA = self.__sever.checkAA(qid)
+
+        if check_AA:
+            inp = input("THIS POST ALREADY HAVE AN ACCEPTED ANSWER. ARE YOU SURE YOU WANT TO CHANGE" +
+                        "IT TO THIS ONE? y/n ")
+
+        acceptable_answer = ['n', 'y']
+        while inp not in acceptable_answer:
+            inp = input("Unrecognized input. ARE YOU SURE YOU WANT TO CHANGE" +
+                        "THE ACCEPTED ANSWER TO THIS ONE? y/n ")
+
+        if inp == 'n':
+            return 3, self.__chosenPID
+
         sql = f"UPDATE QUESTIONS SET THEAID = '{self.__chosenPID}' WHERE PID = '{qid}';"
 
         # Update the accepted answer
         self.__sever.requestQuery(sql, internal_call=True, debug_mode=True)
 
+        print("\nTHE CHOSEN ANSWER IS MARKED AS ACCEPTED SUCCESSFULLY!")
+        return 3, self.__chosenPID
+
+    # Assign badge to the poster
+    def giveBadge(self):
+        # Get the poster
+        get_poster_SQL = f"SELECT P.POSTER FROM POSTS P WHERE P.PID = '{self.__chosenPID}';"
+        poster = self.__sever.requestQuery(get_poster_SQL, internal_call=True, debug_mode=True)
+        poster = str(poster[0][0])
+
+        print("\nPlease select a badge name in this list to grant user the badge: ")
+        badge_record = self.__sever.requestQuery("SELECT * FROM BADGES B;", internal_call=False, debug_mode=True)
+        badge_list = []
+
+        print(badge_record)
+        for row in badge_record:
+            print(row)
+        sql = f""
+        print(poster)
+
 
 if __name__ == '__main__':
     server = Database('../Backend/myDB.db')
     dummy = User('u500', 'D', 'abc', 'Edmonton', '2020-08-08')
-    window = Menu(server, dummy, 9, 'p200')
+    window = Menu(server, dummy, 6, 'p200')
     window.menuNavigate()

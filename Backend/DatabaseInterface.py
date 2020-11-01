@@ -55,6 +55,9 @@ class DatabaseInterface:
     def checkIfAnswer(self):
         pass
 
+    # Check if a post already has an accepted answer. Return False if it have none
+    def checkAA(self):
+        pass
 
 if __name__ == '__main__':
     print(DatabaseInterface.requestQuery.__doc__)

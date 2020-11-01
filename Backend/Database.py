@@ -129,11 +129,21 @@ class Database(DatabaseInterface):
             return False
         return True
 
+    # Check if the question already has an accepted answer. Return False if it have none
+    def checkAA(self, qid):
+        sql = f"SELECT * FROM QUESTIONS Q WHERE Q.PID = '{qid}' AND Q.THEAID ISNULL;"
+        if len(sql) == 0:
+            return False
+
+        return True
+
 
 if __name__ == '__main__':
     server = Database("myDB.db")
 
-    print(server.requestQuery("SELECT * FROM TAGS;", fetch_many=True))
+    # print(server.requestQuery("SELECT * FROM TAGS;", fetch_many=True))
+
+    print(server.requestNewPID())
 
     # server.requestNewPID()
     # print(server.requestUIDCheck("u600"))

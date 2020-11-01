@@ -3,7 +3,7 @@ class PrivilegeInterface:
     def MMA(self):
         pass
 
-    # Ask for badge name as input in this function, then issue SQL
+    # Assign badge to the poster
     def giveBadge(self):
         pass
 
