@@ -31,6 +31,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             return self.vote()
         elif self.__state == 6:
             return self.giveBadge()
+        elif self.__state == 8:
+            return self.editPost()
         elif self.__state == 9:
             return self.MMA()
 
@@ -270,9 +272,38 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         sql = f""
         print(poster)
 
+    # update the chosen post by changing the body and/or title of the post
+    def editPost(self):
+        uid = self.__user.getUid()
+        pid = self.__chosenPID
+        acceptable_value = ['1', '2', 'back']
+        print("\n\n________________________Edit Post________________________")
+        post = self.__sever.getPost(pid)
+        print("Title: " + post[0][0])
+        print("Body: " + post[0][1])
+        print("Type 'back' anytime you want to return to Main Menu")
+        print("1. Edit Title")
+        print("2. Edit Body")
+        inp = input("Please type in the number correspond to the option you choose: ")
+        while inp not in acceptable_value:
+            inp = input("Unrecognized input. Please type in the number correspond to the option you choose: ")
+        if inp == 'back':
+            return 3, pid
+        elif inp == '1':  # edit title
+            print("What is your new title of the post?")
+            title = input("")
+            update_title_sql = f"UPDATE POSTS SET TITLE = '{title}' WHERE PID = '{pid}';"
+            self.__sever.requestQuery(update_title_sql, retriever=False, debug_mode=True)
+        elif inp == '2':  # edit body
+            print("What is your new body of the post?")
+            body = input("")
+            update_body_sql = f"UPDATE POSTS SET BODY = '{body}' WHERE PID = '{pid}';"
+            self.__sever.requestQuery(update_body_sql, retriever=False, debug_mode=True)
+        return 3, pid
+
 
 if __name__ == '__main__':
     server = Database('../Backend/myDB.db')
     dummy = User('u500', 'D', 'abc', 'Edmonton', '2020-08-08')
-    window = Menu(server, dummy, 6, 'p200')
+    window = Menu(server, dummy, 9, 'p200')
     window.menuNavigate()

@@ -75,11 +75,9 @@ class Database(DatabaseInterface):
     # Use this function to generate a new and unique post ID. Execute this method
     # will provide a unique PID
     def requestNewPID(self):
-        get_new_pid_SQL = "SELECT MAX(P.PID) FROM POSTS P;"
-        print(get_new_pid_SQL)
+        get_new_pid_SQL = "SELECT MAX(cast(trim(P.PID,'p')as INTEGER)) FROM POSTS P;"
         pid = self.requestQuery(get_new_pid_SQL, True, internal_call=True)
-        pid = pid[0][0]
-        pid = int(pid[1:]) + 100
+        pid = int(pid[0][0]) + 100
         pid = 'p' + str(pid)
         return pid
 
@@ -91,7 +89,7 @@ class Database(DatabaseInterface):
     # will provide a unique vno
     def requestNewVno(self, pid):
         get_new_vno_SQL = f"SELECT MAX(V.VNO) FROM VOTES V WHERE V.PID = '{pid}' GROUP BY V.PID;"
-        print(get_new_vno_SQL)
+
         vno = self.requestQuery(get_new_vno_SQL, True, internal_call=True)
         vno = int(vno[0][0]) + 1
         return vno
@@ -137,13 +135,17 @@ class Database(DatabaseInterface):
 
         return True
 
+    # Get the title and body of the post
+    def getPost(self, pid):
+        get_answer_SQL = f"SELECT P.TITLE, P.BODY FROM POSTS P WHERE P.PID = '{pid}';"
+        post = self.requestQuery(get_answer_SQL, True, internal_call=True)
+        return post
+
 
 if __name__ == '__main__':
     server = Database("myDB.db")
 
-    # print(server.requestQuery("SELECT * FROM TAGS;", fetch_many=True))
-
-    print(server.requestNewPID())
+    print(server.requestQuery("SELECT * FROM TAGS;", fetch_many=True))
 
     # server.requestNewPID()
     # print(server.requestUIDCheck("u600"))
