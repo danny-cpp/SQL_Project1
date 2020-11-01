@@ -29,6 +29,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             return self.answerQuestion()
         elif self.__state == 5:
             return self.vote()
+        elif self.__state == 9:
+            return self.MMA()
 
     # After login successfully, user will be in the navigation panel. Display all
     # options the user has.
@@ -219,9 +221,21 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
     # Mark as accepted. A privileged user can mark an answer post as accepted
     # Order a SQL query here
-    # def MMA(self):
+    def MMA(self):
+        print("\n____________________Mark as Accepted_____________________")
+        print("You have chosen post " + self.__chosenPID)
+
+        get_question_sql = f"SELECT A.QID FROM ANSWERS A WHERE A.PID = '{self.__chosenPID}';"
+        correspond_question = self.__sever.requestQuery(get_question_sql, internal_call=True, debug_mode=True)
+        qid = str(correspond_question[0][0])
+        sql = f"UPDATE QUESTIONS SET THEAID = '{self.__chosenPID}' WHERE PID = '{qid}';"
+
+        # Update the accepted answer
+        self.__sever.requestQuery(sql, internal_call=True, debug_mode=True)
 
 
 if __name__ == '__main__':
-    Menu.MainMenu()
     server = Database('../Backend/myDB.db')
+    dummy = User('u500', 'D', 'abc', 'Edmonton', '2020-08-08')
+    window = Menu(server, dummy, 9, 'p200')
+    window.menuNavigate()

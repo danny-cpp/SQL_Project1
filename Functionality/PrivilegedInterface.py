@@ -1,22 +1,18 @@
 class PrivilegeInterface:
     # Mark as accepted. A privileged user can mark an answer post as accepted
-    # Order a SQL query hered
-    def MMA(pid):
+    def MMA(self):
         pass
 
     # Ask for badge name as input in this function, then issue SQL
-    @staticmethod
-    def giveBadge(uid):
+    def giveBadge(self):
         pass
 
     # Ask for tags as string input, then issue SQL
-    @staticmethod
-    def addTags(pid):
+    def addTags(self):
         pass
 
     # Ask for new title and body, then issue SQL
-    @staticmethod
-    def postEdit(pid):
+    def postEdit(self):
         pass
 
 

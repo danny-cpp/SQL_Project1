@@ -130,7 +130,6 @@ class Database(DatabaseInterface):
         return True
 
 
-
 if __name__ == '__main__':
     server = Database("myDB.db")
 
