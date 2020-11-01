@@ -32,7 +32,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         elif self.__state == 6:
             return self.giveBadge()
         elif self.__state == 8:
-            return self.editPost()
+            return self.editPostContent()
         elif self.__state == 9:
             return self.MMA()
 
@@ -262,18 +262,37 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         poster = self.__sever.requestQuery(get_poster_SQL, internal_call=True, debug_mode=True)
         poster = str(poster[0][0])
 
-        print("\nPlease select a badge name in this list to grant user the badge: ")
+        post_date = self.__sever.getCurrentTime()
+        received_post = self.__sever.checkBadgeGranted(poster, post_date)
+
+        if received_post:
+            inp = input("\nSORRY, THIS POSTER HAS ALREADY RECEIVED A BADGE TODAY. TRY AGAIN TOMORROW."
+                        "\nHit Enter to return to the previous menu.")
+
+            return 3, self.__chosenPID
+
         badge_record = self.__sever.requestQuery("SELECT * FROM BADGES B;", internal_call=False, debug_mode=True)
         badge_list = []
 
-        print(badge_record)
         for row in badge_record:
-            print(row)
-        sql = f""
-        print(poster)
+            badge_list.append(row[0])
+
+        inp = input("\nPlease select a badge name in this list to grant user the badge " +
+                    "or 'back' to return to previous menu': ")
+
+        bool_flag = True
+        while inp not in badge_list:
+            if inp == 'back':
+                return 3, self.__chosenPID
+            inp = input("Invalid badge name, please enter again")
+
+        sql = f"INSERT INTO UBADGES(UID, BDATE, BNAME) VALUES ('{poster}', '{post_date}', '{inp}');"
+
+        print(f"{poster} {post_date} {inp}")
+        self.__sever.requestQuery(sql, internal_call=True, retriever=False, debug_mode=True)
 
     # update the chosen post by changing the body and/or title of the post
-    def editPost(self):
+    def editPostContent(self):
         uid = self.__user.getUid()
         pid = self.__chosenPID
         acceptable_value = ['1', '2', 'back']
@@ -305,5 +324,5 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 if __name__ == '__main__':
     server = Database('../Backend/myDB.db')
     dummy = User('u500', 'D', 'abc', 'Edmonton', '2020-08-08')
-    window = Menu(server, dummy, 9, 'p200')
+    window = Menu(server, dummy, 6, 'p100')
     window.menuNavigate()

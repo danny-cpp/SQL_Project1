@@ -42,7 +42,7 @@ class Database(DatabaseInterface):
         # If the query is a retriever i.e. SELECT...
         if not fetch_many:  # Retriever should always on, deprecated default argument 'retriever'
             cursor = self.__conn.execute(query_string)
-            records = self.__conn.execute(query_string).fetchall()
+
             table = PrettyTable()
             table.field_names = col_name
 
@@ -53,7 +53,10 @@ class Database(DatabaseInterface):
                 print(table)
 
             self.__conn.commit()
-            return records
+
+            if retriever:
+                records = self.__conn.execute(query_string).fetchall()
+                return records
 
         elif fetch_many:
             cursor = self.__conn.execute(query_string)
@@ -141,6 +144,15 @@ class Database(DatabaseInterface):
         post = self.requestQuery(get_answer_SQL, True, internal_call=True)
         return post
 
+    # Check the user with on a given date received a badge or not. If they already
+    # received a badge, return True
+    def checkBadgeGranted(self, uid, date):
+        sql = f"SELECT * FROM UBADGES UB WHERE UB.UID = '{uid}' AND UB.BDATE = '{date}';"
+        record = self.requestQuery(sql, internal_call=True, debug_mode=True)
+        if len(record) == 0:
+            return False
+
+        return True
 
 if __name__ == '__main__':
     server = Database("myDB.db")
