@@ -24,7 +24,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         elif self.__state == 2:
             return self.searchPost()
         elif self.__state == 3:
-            return self.postActionMenu
+            return self.postActionMenu()
         elif self.__state == 4:
             return self.answerQuestion()
         elif self.__state == 5:
@@ -84,28 +84,19 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         records = self.__sever.requestQuery(sql, retriever=True, col_name=column_array, internal_call=True,
                                             fetch_many=True, debug_mode=True)
 
+        available_pid = []
+        for page in records:
+            for line in page:
+                available_pid.append(line[0])
+
         # This section display them page by page
         bookkeeper = Pages(records, 0, col_name=column_array)
         bookkeeper.printPages()
-        tmp_bool = True
-
-        pid = input("Choose the post by type in the PID to interact with it, or 'back to return to main menu: ")
-        if pid == 'back':
-            return 0, None
-        elif pid == 'prev':
-            bookkeeper.prevPage()
-            tmp_bool = False
-        elif pid == 'next':
-            bookkeeper.nextPage()
-            tmp_bool = False
-
-        # If the user input an invalid PID we request again
-        sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}';"
-        record = self.__sever.requestQuery(sql1, retriever=True, internal_call=True,
-                                           debug_mode=True)
-
-        while len(record) == 0:
+        tmp_bool = False
+        search_pid = list()
+        while len(search_pid) == 0:
             if tmp_bool: print("Invalid PID, ", end="")
+            tmp_bool = False
             pid = input("Please choose the post by type in the PID to interact with it, or 'back' " +
                         "to return to main menu: ")
 
@@ -113,24 +104,22 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
                 return 0, None
             elif pid == 'prev':
                 bookkeeper.prevPage()
-                tmp_bool = False
                 continue
             elif pid == 'next':
                 bookkeeper.nextPage()
-                tmp_bool = False
                 continue
-
-            sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}';"
-            record = self.__sever.requestQuery(sql1, retriever=True, internal_call=True,
+            elif pid not in available_pid:
+                tmp_bool = True
+            else:
+                sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{pid}';"
+                search_pid = self.__sever.requestQuery(sql1, retriever=True, internal_call=True,
                                                debug_mode=True)
-
-            tmp_bool = True
+                tmp_bool = True
         return 3, pid
 
     # Post-Action-Group
 
     # This window will be called if a user chose a post
-    @property
     def postActionMenu(self):
         print("\n_______________________Action Menu________________________")
         print("You have chosen post " + self.__chosenPID)

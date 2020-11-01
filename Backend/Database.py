@@ -89,13 +89,11 @@ class Database(DatabaseInterface):
 
     # Use this function to generate a new and unique vote ID. Execute this method
     # will provide a unique vno
-    def requestNewVno(self):
-        get_new_vno_SQL = "SELECT MAX(V.VNO) FROM VOTES V;"
+    def requestNewVno(self, pid):
+        get_new_vno_SQL = f"SELECT MAX(V.VNO) FROM VOTES V WHERE V.PID = '{pid}' GROUP BY V.PID;"
         print(get_new_vno_SQL)
         vno = self.requestQuery(get_new_vno_SQL, True, internal_call=True)
-        vno = vno[0][0]
-        vno = int(vno[1:]) + 100
-        vno = 'v' + str(vno)
+        vno = int(vno[0][0]) + 1
         return vno
 
     # This method check the statue of user for special post. If the user
@@ -122,6 +120,15 @@ class Database(DatabaseInterface):
         if len(answer_record) == 0:
             return False
         return True
+
+    # Check if a post is an answer
+    def checkIfAnswer(self, pid):
+        check_answer_SQL = f"SELECT * FROM ANSWERS A WHERE A.PID = '{pid}';"
+        answer_record = self.requestQuery(check_answer_SQL, internal_call=True, debug_mode=True)
+        if len(answer_record) == 0:
+            return False
+        return True
+
 
 
 if __name__ == '__main__':
