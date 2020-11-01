@@ -28,4 +28,8 @@ class FunctionalityInterface:
     def vote(self):
         pass
 
+    # update the chosen post by changing the body and/or title of the post
+    def editPost(self):
+        pass
+
 

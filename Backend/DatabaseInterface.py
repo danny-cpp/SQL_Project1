@@ -55,6 +55,9 @@ class DatabaseInterface:
     def checkIfAnswer(self):
         pass
 
+    # Get the title and body of the post
+    def getPost(self, pid):
+        pass
 
 if __name__ == '__main__':
     print(DatabaseInterface.requestQuery.__doc__)
