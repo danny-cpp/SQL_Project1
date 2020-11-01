@@ -42,7 +42,7 @@ class Database(DatabaseInterface):
         # If the query is a retriever i.e. SELECT...
         if not fetch_many:  # Retriever should always on, deprecated default argument 'retriever'
             cursor = self.__conn.execute(query_string)
-            self.__conn.commit()
+            records = self.__conn.execute(query_string).fetchall()
             table = PrettyTable()
             table.field_names = col_name
 
@@ -52,7 +52,7 @@ class Database(DatabaseInterface):
                     table.add_row(row)
                 print(table)
 
-            records = cursor.fetchall()
+            self.__conn.commit()
             return records
 
         elif fetch_many:
@@ -145,7 +145,9 @@ class Database(DatabaseInterface):
 if __name__ == '__main__':
     server = Database("myDB.db")
 
-    print(server.requestQuery("SELECT * FROM TAGS;", fetch_many=True))
+    record = server.requestQuery("SELECT * FROM TAGS;", fetch_many=False, internal_call=False)
+
+    print(record)
 
     # server.requestNewPID()
     # print(server.requestUIDCheck("u600"))
