@@ -14,6 +14,10 @@ class Database(DatabaseInterface):
     def __init__(self, path):
         self.__path = path
         self.__conn = sqlite3.connect(self.__path)
+
+        cursor = self.__conn.execute(' PRAGMA foreign_keys=ON; ')
+        self.__conn.commit()
+
         print("Connecting to database successfully")
 
     # The lifetime of the connection is defined to be when the connection object is created
@@ -153,6 +157,7 @@ class Database(DatabaseInterface):
             return False
 
         return True
+
 
 if __name__ == '__main__':
     server = Database("myDB.db")
