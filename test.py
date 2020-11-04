@@ -8,8 +8,9 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
         raise ValueError('Please provide a valid path to the server. ')
 
+    # Backend/myDB.db
     print("Loading server...")
-    server = Database(sys.argv[0])
+    server = Database(sys.argv[1])
 
     # First action is to guide the user through login process
     current_user = None
@@ -20,7 +21,7 @@ if __name__ == '__main__':
     print("\n\nWelcome back " + current_user.getName() + "!")
     current_state = 0
     chosen_post = None
-    while True:
+    while current_state != 10:
         current_window = Menu(server, current_user, current_state, chosen_post)
         current_state, chosen_post = current_window.menuNavigate()
 

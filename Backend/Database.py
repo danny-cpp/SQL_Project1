@@ -18,6 +18,14 @@ class Database(DatabaseInterface):
         cursor = self.__conn.execute(' PRAGMA foreign_keys=ON; ')
         self.__conn.commit()
 
+        # Test connect
+        try:
+            self.requestQuery("SELECT 1", debug_mode=False, internal_call=True)
+        except:
+            print("Unable to connect to database...")
+            exit()
+
+
         print("Connecting to database successfully")
 
     # The lifetime of the connection is defined to be when the connection object is created
