@@ -394,7 +394,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     def editPostContent(self):
         uid = self.__user.getUid()
         pid = self.__chosenPID
-        acceptable_value = ['1', '2', 'back']
+        acceptable_value = ['1', '2', 'back', 'logout']
         print("\n\n________________________Edit Post________________________")
         post = self.__sever.getPost(pid)
         print("Title: " + post[0][0])
@@ -408,6 +408,9 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
                                      "you choose: ")
         if inp == 'back':
             return 3, pid
+        if inp == 'logout':
+            return 10, None
+
         elif inp == '1':  # edit title
             print("What is your new title of the post?")
             title = InputControl.Input("")
