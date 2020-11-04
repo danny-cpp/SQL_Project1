@@ -5,7 +5,6 @@ from Object.User import *
 
 
 class Menu(FunctionalityInterface, PrivilegeInterface):
-
     # As we build a finite state machine here, each number will be each state of this machine.
     # For this particular case: 0 = Main Menu, 1 = Post Question, 2 = Post Question, 3 = Search Post
     # It also needs to operate on a server and a user object

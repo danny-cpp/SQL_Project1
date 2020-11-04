@@ -17,8 +17,6 @@ class InputControl:
         if enforce_lower:
             user_inp = user_inp.lower()
 
-
-
         return user_inp
 
 
