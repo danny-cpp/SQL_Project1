@@ -1,6 +1,8 @@
+from InputControl import RegInput
 from Login.LoginInterface import *
 from Object.User import *
 from Backend.Database import *
+from InputControl.RegInput import *
 
 
 class Display(LoginInterface):
@@ -14,7 +16,7 @@ class Display(LoginInterface):
         # Danh: What if user enter something wrong (ex: 'a')? Throw some kind of exception
         # or ask user input again.
         acceptable = ['y', 'n', 'quit']
-        key = input("Are you an existing user? y / n ")
+        key = InputControl.Input("Are you an existing user? y / n ")
         while True:
             if key in acceptable:
                 if key == 'y':
@@ -26,7 +28,7 @@ class Display(LoginInterface):
                 if key == 'quit':
                     exit()
             else:
-                key = input("Wrong input, please try again. Are you an existing user? y / n ")
+                key = InputControl.Input("Wrong input, please try again. Are you an existing user? y / n ")
 
         return state
 
@@ -35,16 +37,16 @@ class Display(LoginInterface):
     # UID already exist, throw exception
     @staticmethod
     def createNewUser(svr):
-        uid = input("Please enter a unique ID: ")
+        uid = InputControl.Input("Please enter a unique ID: ")
         while svr.requestUIDCheck(uid):
-            uid = input("UID already taken, please input another UID: ")
-        usrname = input("Please enter your name: ")
+            uid = InputControl.Input("UID already taken, please input another UID: ")
+        usrname = InputControl.Input("Please enter your name: ")
         pwd = input("Please enter your password: ")
-        city = input("Please enter your city: ")
+        city = InputControl.Input("Please enter your city: ")
         # Call for a new ID to be generated
         cr_date = svr.getCurrentTime()
         usr = User(uid, usrname, pwd, city, cr_date)
-        inp = input("Are you sure with this these information? If not, type 'back' to go to the Welcome Screen")
+        inp = InputControl.Input("Are you sure with this these information? If not, type 'back' to go to the Welcome Screen")
         if inp == 'back':
             return None
         insert_user = ("INSERT INTO users (uid, name, pwd, city, crdate)" +
@@ -59,9 +61,9 @@ class Display(LoginInterface):
     @staticmethod
     def loginScreen(svr):
         # Return a user object, where it has all the attributes bellow
-        uid = input("Please enter your UID: ")
+        uid = InputControl.Input("Please enter your UID: ")
         while not svr.requestUIDCheck(uid):
-            uid = input("UID have not registered, check your UID or enter 'back' to WelcomeScreen: ")
+            uid = InputControl.Input("UID have not registered, check your UID or enter 'back' to WelcomeScreen: ")
             if uid == 'back':
                 return None
 
@@ -72,6 +74,8 @@ class Display(LoginInterface):
         pwd = input("Please enter your password: ")
         while pwd != login_authentication[0][2]:
             pwd = input("Wrong password. Please enter your password again: ")
+            if pwd == 'back':
+                return None
         current_user = User(login_authentication[0][0], login_authentication[0][1], login_authentication[0][2],
                             login_authentication[0][3], login_authentication[0][4])
 

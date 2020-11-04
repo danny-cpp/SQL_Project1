@@ -2,6 +2,7 @@ from Functionality.FunctionalityInterace import *
 from Functionality.PrivilegedInterface import *
 from Functionality.Pages import Pages
 from Object.User import *
+from InputControl.RegInput import *
 
 
 class Menu(FunctionalityInterface, PrivilegeInterface):
@@ -46,9 +47,9 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         print("Type 'back' anytime you want to return to Main Menu")
         print("1. Post Question")
         print("2. Search Post  ")
-        inp = input("Please type in the number correspond to the option you choose: ")
+        inp = InputControl.Input("Please type in the number correspond to the option you choose: ")
         while inp not in acceptable_value:
-            inp = input("Unrecognized input. Please type in the number correspond to the option you choose: ")
+            inp = InputControl.Input("Unrecognized input. Please type in the number correspond to the option you choose: ")
 
         if inp == '1':
             return 1, None
@@ -59,25 +60,32 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     # will be provided. It must implement a hash function to create a pid
     def postQuestion(self):
         uid = self.__user.getUid()
+        acceptable_value = ['y', 'n']
         print("\n\n________________________Make Post________________________")
-        title = input("What is your title? ")
-        body = input("What do you want to post? ")
+        print("What is your title? (Hit enter when you finish)")
+        title = InputControl.Input()
+        print("What do you want in your post? (Hit enter when you finish)")
+        body = InputControl.Input()
+        confirm = InputControl.Input("Do you confirm your new post? y/n")
+        while confirm not in acceptable_value:
+            confirm = InputControl.Input("Unrecognized input. Do you confirm your new post? y/n ")
+        if confirm == 'n':
+            return 0, None
         date = self.__sever.getCurrentTime()
         pid = self.__sever.requestNewPID()
         sql = ("INSERT INTO POSTS (pid, pdate, title, body, poster) " +
                f"VALUES ('{pid}',DATE('{date}'),'{title}','{body}','{uid}');")
-
         update_question_sql = ("INSERT INTO QUESTIONS (pid) " +
                                f"VALUES ('{pid}');")
-
         self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
         self.__sever.requestQuery(update_question_sql, retriever=False, debug_mode=True)
+        print("Post Success!")
         return 0, None
 
     # Accepting keyword, order SQL query
     def searchPost(self):
         print("\n\n_______________________Search Post________________________")
-        keyword = input("Search Keyword: ").lower()
+        keyword = InputControl.Input("Search Keyword: ").lower()
         sql = ("SELECT * FROM posts P " +
                f"WHERE lower(P.title) LIKE lower('%{keyword}%') " +
                "UNION " +
@@ -104,7 +112,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         while len(search_pid) == 0:
             if tmp_bool: print("Invalid PID, ", end="")
             tmp_bool = False
-            pid = input("Please choose the post by type in the PID to interact with it, or 'back' " +
+            pid = InputControl.Input("Please choose the post by type in the PID to interact with it, or 'back' " +
                         "to return to main menu: ")
 
             if pid == 'back':
@@ -159,9 +167,9 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
                 acceptable_value.append('6')
                 print("6. Mark as accepted")
 
-        inp = input("Please type in the number correspond to the option you choose: ")
+        inp = InputControl.Input("Please type in the number correspond to the option you choose: ")
         while inp not in acceptable_value:
-            inp = input("Unrecognized input. Please type in the number correspond to the option you choose: ")
+            inp = InputControl.Input("Unrecognized input. Please type in the number correspond to the option you choose: ")
 
         if inp == 'back':
             return 0, None
@@ -182,8 +190,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     def answerQuestion(self):
         uid = self.__user.getUid()
         print("\n\n________________________Make Answer________________________")
-        title = input("What is your title? ")
-        body = input("What do you want to answer? ")
+        title = InputControl.Input("What is your title? ")
+        body = InputControl.Input("What do you want to answer? ")
         date = self.__sever.getCurrentTime()
         pid = self.__sever.requestNewPID()
         qid = self.__chosenPID
@@ -204,7 +212,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
         acceptable = ['y', 'n', 'quit']
         print("\n\n________________________Make Vote________________________")
-        vote = input("Do you want to vote the post? y/n ")
+        vote = InputControl.Input("Do you want to vote the post? y/n ")
         while vote in acceptable:
             if vote == 'y':
                 break
@@ -213,7 +221,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             if vote == 'quit':
                 exit()
             else:
-                key = input("Wrong input, Do you want to vote the post? y/n ")
+                key = InputControl.Input("Wrong input, Do you want to vote the post? y/n ")
 
         if self.__sever.requestVoteCheck(uid, pid):
             print("You already vote this post!")
@@ -222,6 +230,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         sql = ("INSERT INTO votes (pid, vno, vdate, uid) " +
                f"VALUES ('{pid}','{vno}', DATE('{date}'), '{uid}');")
         self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
+        print("Vote Successfully" + str(pid))
         return 3, pid
 
     # Mark as accepted. A privileged user can mark an answer post as accepted
@@ -237,12 +246,12 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         check_AA = self.__sever.checkAA(qid)
 
         if check_AA:
-            inp = input("THIS POST ALREADY HAVE AN ACCEPTED ANSWER. ARE YOU SURE YOU WANT TO CHANGE" +
+            inp = InputControl.Input("THIS POST ALREADY HAVE AN ACCEPTED ANSWER. ARE YOU SURE YOU WANT TO CHANGE" +
                         "IT TO THIS ONE? y/n ")
 
         acceptable_answer = ['n', 'y']
         while inp not in acceptable_answer:
-            inp = input("Unrecognized input. ARE YOU SURE YOU WANT TO CHANGE" +
+            inp = InputControl.Input("Unrecognized input. ARE YOU SURE YOU WANT TO CHANGE" +
                         "THE ACCEPTED ANSWER TO THIS ONE? y/n ")
 
         if inp == 'n':
@@ -267,34 +276,36 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         received_post = self.__sever.checkBadgeGranted(poster, post_date)
 
         if received_post:
-            inp = input("\nSORRY, THIS POSTER HAS ALREADY RECEIVED A BADGE TODAY. TRY AGAIN TOMORROW."
+            inp = InputControl.Input("\nSORRY, THIS POSTER HAS ALREADY RECEIVED A BADGE TODAY. TRY AGAIN TOMORROW."
                         "\nHit Enter to return to the previous menu.")
 
             return 3, self.__chosenPID
-
-        badge_record = self.__sever.requestQuery("SELECT * FROM BADGES B;", internal_call=False, debug_mode=True)
+        column_array = ['BADGES NAME', 'TYPE']
+        badge_record = self.__sever.requestQuery("SELECT * FROM BADGES B;",col_name=column_array, internal_call=False, debug_mode=True)
         badge_list = []
 
         for row in badge_record:
             badge_list.append(row[0])
 
-        inp = input("\nPlease select a badge name in this list to grant user the badge " +
+        inp = InputControl.Input("\nPlease select a badge name in this list to grant user the badge " +
                     "or 'back' to return to previous menu': ")
 
         bool_flag = True
         while inp not in badge_list:
             if inp == 'back':
                 return 3, self.__chosenPID
-            inp = input("Invalid badge name, please enter again")
+            inp = InputControl.Input("Invalid badge name, please enter again")
 
         sql = f"INSERT INTO UBADGES(UID, BDATE, BNAME) VALUES ('{poster}', '{post_date}', '{inp}');"
 
         print(f"{poster} {post_date} {inp}")
         self.__sever.requestQuery(sql, internal_call=True, retriever=False, debug_mode=True)
+        print("Successfully Give A Badge!")
+        return 3, self.__chosenPID
 
     def addTags(self):
         print("\n______________________Add tag_______________________")
-        inp = input("Choose a keyword as a tag to add to this post: ")
+        inp = InputControl.Input("Choose a keyword as a tag to add to this post: ")
 
         sql = f"INSERT INTO TAGS(PID, TAG) VALUES ('{self.__chosenPID}', '{inp}')"
         self.__sever.requestQuery(sql, retriever=False, internal_call=True, debug_mode=True)
@@ -313,19 +324,19 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         print("Type 'back' anytime you want to return to Main Menu")
         print("1. Edit Title")
         print("2. Edit Body")
-        inp = input("Please type in the number correspond to the option you choose: ")
+        inp = InputControl.Input("Please type in the number correspond to the option you choose: ")
         while inp not in acceptable_value:
-            inp = input("Unrecognized input. Please type in the number correspond to the option you choose: ")
+            inp = InputControl.Input("Unrecognized input. Please type in the number correspond to the option you choose: ")
         if inp == 'back':
             return 3, pid
         elif inp == '1':  # edit title
             print("What is your new title of the post?")
-            title = input("")
+            title = InputControl.Input("")
             update_title_sql = f"UPDATE POSTS SET TITLE = '{title}' WHERE PID = '{pid}';"
             self.__sever.requestQuery(update_title_sql, retriever=False, debug_mode=True)
         elif inp == '2':  # edit body
             print("What is your new body of the post?")
-            body = input("")
+            body = InputControl.Input("")
             update_body_sql = f"UPDATE POSTS SET BODY = '{body}' WHERE PID = '{pid}';"
             self.__sever.requestQuery(update_body_sql, retriever=False, debug_mode=True)
         return 3, pid
