@@ -110,7 +110,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
                ") Z LEFT JOIN votes V ON Z.pid = V.pid " +
                "GROUP BY Z.pid, Z.pdate, Z.title, Z.body, Z.poster;")
 
-        column_array = ['pid', 'type', 'post date', 'title', 'content', 'poster', 'votes']
+        column_array = ['PID', 'TYPE', 'POST DATE', 'TITLE', 'CONTENT', 'POSTER', 'VOTES', 'ANSWERS']
         records = self.__sever.requestQuery(sql, retriever=True, col_name=column_array, internal_call=True,
                                             fetch_many=True, debug_mode=True)
 
@@ -119,6 +119,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             for line in page:
                 available_pid.append(line[0])
 
+        # convert tuples list to list
         new_record = []
         for page in records:
             tmp = []
@@ -130,7 +131,9 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
                     tmp_line.insert(1, "A")
                 else:
                     tmp_line.insert(1, "Q")
-
+                count_ans_sql = f"SELECT COUNT(A.PID) FROM ANSWERS A WHERE A.QID = '{tmp_line[0]}';"
+                records = self.__sever.requestQuery(count_ans_sql, retriever=True, internal_call=True, debug_mode=True)
+                tmp_line.append(records[0][0])
                 tmp.append(list(tmp_line))
             new_record.append(tmp)
 
