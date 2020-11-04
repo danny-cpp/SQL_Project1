@@ -69,10 +69,10 @@ class Database(DatabaseInterface):
             # in this section we fetch data in page. Maximum 2 objects per, then store
             # them in a list
             records = []
-            page = cursor.fetchmany(2)
+            page = cursor.fetchmany(5)
             records.append(page)
             while True:
-                page = cursor.fetchmany(2)
+                page = cursor.fetchmany(5)
                 if len(page) == 0:
                     break
                 records.append(page)

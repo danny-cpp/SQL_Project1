@@ -13,7 +13,21 @@ class Pages:
         table.field_names = self.__col_name
 
         for row in self.__record_list[self.__page_number]:
+            row = list(row)
+
+            if len(row[2]) > 30:
+                row[2] = row[2][:27] + "..."
+
+            if len(row[3]) > 45:
+                row[3] = row[3][:42] + "..."
+
             table.add_row(row)
+
+        # aligning text:
+        table.align["pid"] = 'l'
+        table.align["title"] = 'l'
+        table.align["content"] = 'l'
+        table.align["poster"] = 'l'
 
         print(table)
         print(f"                                        Page {self.__page_number + 1}/{len(self.__record_list)}")
