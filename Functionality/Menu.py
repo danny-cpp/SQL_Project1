@@ -70,7 +70,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
                                    enforce_lower=False, allow_special=True)
         body = InputControl.Input("\nWhat do you want in your post? (Hit enter when you finish)\n", accept_blank=False,
                                   enforce_lower=False, allow_special=True)
-        confirm = InputControl.Input("Do you confirm your new post? y/n")
+        confirm = InputControl.Input("Do you confirm your new post? y/n ")
 
         while confirm not in acceptable_value:
             confirm = InputControl.Input("Unrecognized input. Do you confirm your new post? y/n ")
@@ -88,9 +88,13 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         update_question_sql = ("INSERT INTO QUESTIONS (pid) " +
                                f"VALUES ('{pid}');")
 
-        self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
-        self.__sever.requestQuery(update_question_sql, retriever=False, debug_mode=True)
-        print("Post Success!")
+        self.__sever.requestQuery(sql, retriever=False, debug_mode=True, internal_call=True)
+        self.__sever.requestQuery(update_question_sql, retriever=False, debug_mode=True, internal_call=True)
+
+        self.__sever.requestQuery(f"SELECT * FROM POSTS P WHERE P.PID = '{pid}';", internal_call=False,
+                                  col_name=['PID', 'POST DATE', 'TITLE', 'CONTENT', 'POSTER'])
+
+        print("\nPOST SUCCESS!")
         return 0, None
 
     # Accepting keyword, order SQL query
@@ -359,7 +363,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
             return 3, self.__chosenPID
         column_array = ['BADGES NAME', 'TYPE']
-        badge_record = self.__sever.requestQuery("SELECT * FROM BADGES B;",col_name=column_array, internal_call=False, debug_mode=True)
+        badge_record = self.__sever.requestQuery("SELECT * FROM BADGES B;", col_name=column_array, internal_call=False,
+                                                 debug_mode=True)
         badge_list = []
 
         for row in badge_record:
