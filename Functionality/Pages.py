@@ -24,10 +24,10 @@ class Pages:
             table.add_row(row)
 
         # aligning text:
-        table.align["pid"] = 'l'
-        table.align["title"] = 'l'
-        table.align["content"] = 'l'
-        table.align["poster"] = 'l'
+        table.align["PID"] = 'l'
+        table.align["TITLE"] = 'l'
+        table.align["CONTENT"] = 'l'
+        table.align["POSTER"] = 'l'
 
         print(table)
         print(f"                                        Page {self.__page_number + 1}/{len(self.__record_list)}")

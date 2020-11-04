@@ -1,10 +1,15 @@
 from Login.Display import *
 from Backend.Database import *
 from Functionality.Menu import *
+import sys
 
 if __name__ == '__main__':
+    # loading server
+    if len(sys.argv) != 2:
+        raise ValueError('Please provide a valid path to the server. ')
+
     print("Loading server...")
-    server = Database('Backend/myDB.db')
+    server = Database(sys.argv[0])
 
     # First action is to guide the user through login process
     current_user = None

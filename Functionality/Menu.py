@@ -62,11 +62,11 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         uid = self.__user.getUid()
         acceptable_value = ['y', 'n']
         print("\n\n________________________Make Post________________________")
-        print("What is your title? (Hit enter when you finish)")
-        title = InputControl.Input()
-        print("What do you want in your post? (Hit enter when you finish)")
-        body = InputControl.Input()
+
+        title = InputControl.Input("What is your title? (Hit enter when you finish)\n", accept_blank=False)
+        body = InputControl.Input("\nWhat do you want in your post? (Hit enter when you finish)\n", accept_blank=False)
         confirm = InputControl.Input("Do you confirm your new post? y/n")
+
         while confirm not in acceptable_value:
             confirm = InputControl.Input("Unrecognized input. Do you confirm your new post? y/n ")
         if confirm == 'n':
