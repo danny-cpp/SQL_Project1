@@ -5,7 +5,7 @@ from getpass import getpass
 class InputControl:
     # Replacing input
     @staticmethod
-    def Input(prompt='', enforce_lower=False, is_pwd=False, accept_blank=False, allow_special=False):
+    def Input(prompt='', enforce_lower=True, is_pwd=False, accept_blank=False, allow_special=False):
         if is_pwd:
             user_inp = getpass(prompt)
             check = re.match("[a-zA-Z0-9]+$", user_inp)

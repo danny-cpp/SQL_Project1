@@ -8,6 +8,9 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
         raise ValueError('Please provide a valid path to the server. ')
 
+    if not os.path.isfile(sys.argv[1]):
+        raise Exception("Not a valid database filepath")
+
     # Backend/myDB.db
     print("Loading server...")
     server = Database(sys.argv[1])

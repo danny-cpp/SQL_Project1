@@ -3,6 +3,7 @@ import sqlite3
 from Backend.DatabaseInterface import *
 from prettytable import PrettyTable
 from datetime import datetime
+import os.path
 
 
 # Database object control and establish, as well as terminate connection to the server.
@@ -12,6 +13,7 @@ class Database(DatabaseInterface):
     # Constructor establish connection to database. If database not exist, it will
     # create new instance.
     def __init__(self, path):
+
         self.__path = path
         self.__conn = sqlite3.connect(self.__path)
 
@@ -20,11 +22,18 @@ class Database(DatabaseInterface):
 
         # Test connect
         try:
-            self.requestQuery("SELECT 1", debug_mode=False, internal_call=True)
+            self.requestQuery("SELECT 1 FROM users;", debug_mode=False, internal_call=True)
+            self.requestQuery("SELECT 1 FROM badges;", debug_mode=False, internal_call=True)
+            self.requestQuery("SELECT 1 FROM posts;", debug_mode=False, internal_call=True)
+            self.requestQuery("SELECT 1 FROM privileged;", debug_mode=False, internal_call=True)
+            self.requestQuery("SELECT 1 FROM questions;", debug_mode=False, internal_call=True)
+            self.requestQuery("SELECT 1 FROM tags;", debug_mode=False, internal_call=True)
+            self.requestQuery("SELECT 1 FROM ubadges;", debug_mode=False, internal_call=True)
+            self.requestQuery("SELECT 1 FROM answers;", debug_mode=False, internal_call=True)
+            self.requestQuery("SELECT 1 FROM votes;", debug_mode=False, internal_call=True)
         except:
-            print("Unable to connect to database...")
-            exit()
-
+            print("\nThis database is missing schemas that required for this application.\n")
+            exit(-1)
 
         print("Connecting to database successfully")
 

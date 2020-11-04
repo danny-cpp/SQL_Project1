@@ -41,8 +41,9 @@ class Display(LoginInterface):
         while svr.requestUIDCheck(uid):
             uid = InputControl.Input("UID already taken, please input another UID: ")
         usrname = InputControl.Input("Please enter your name: ")
-        pwd = input("Please enter your password: ")
+        pwd = InputControl.Input("Please enter your password: ", is_pwd=True)
         city = InputControl.Input("Please enter your city: ")
+
         # Call for a new ID to be generated
         cr_date = svr.getCurrentTime()
         usr = User(uid, usrname, pwd, city, cr_date)
@@ -71,9 +72,9 @@ class Display(LoginInterface):
         login_authentication = svr.requestQuery(query_string, retriever=True, col_name=[],
                                                 internal_call=True, debug_mode=False)
 
-        pwd = input("Please enter your password: ")
+        pwd = InputControl.Input("Please enter your password: ", is_pwd=True)
         while pwd != login_authentication[0][2]:
-            pwd = input("Wrong password. Please enter your password again: ")
+            pwd = InputControl.Input("Wrong password. Please enter your password again: ", is_pwd=True)
             if pwd == 'back':
                 return None
         current_user = User(login_authentication[0][0], login_authentication[0][1], login_authentication[0][2],
