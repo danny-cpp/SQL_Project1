@@ -58,7 +58,9 @@ class Database(DatabaseInterface):
 
         # for debugging purpose, turn this off for official version
         if debug_mode:
-            print(query_string)
+            # Official released, debug is disabled
+            # print(query_string)
+            pass
 
         # If the query is a retriever i.e. SELECT...
         if not fetch_many:  # Retriever should always on, deprecated default argument 'retriever'

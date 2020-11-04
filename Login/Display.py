@@ -37,9 +37,9 @@ class Display(LoginInterface):
     # UID already exist, throw exception
     @staticmethod
     def createNewUser(svr):
-        uid = InputControl.Input("Please enter a unique ID: ")
+        uid = InputControl.Input("Please enter a unique ID: ", alphanum_only=True)
         while svr.requestUIDCheck(uid):
-            uid = InputControl.Input("UID already taken, please input another UID: ")
+            uid = InputControl.Input("UID already taken, please input another UID: ", alphanum_only=True)
         usrname = InputControl.Input("Please enter your name: ")
         pwd = InputControl.Input("Please enter your password: ", is_pwd=True)
         city = InputControl.Input("Please enter your city: ")

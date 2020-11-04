@@ -49,7 +49,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         print("2. Search Post  ")
         inp = InputControl.Input("Please type in the number correspond to the option you choose: ")
         while inp not in acceptable_value:
-            inp = InputControl.Input("Unrecognized input. Please type in the number correspond to the option you choose: ")
+            inp = InputControl.Input("Unrecognized input. Please type in the number correspond "
+                                     "to the option you choose: ")
 
         if inp == '1':
             return 1, None
@@ -65,8 +66,10 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         acceptable_value = ['y', 'n', 'logout']
         print("\n\n________________________Make Post________________________")
 
-        title = InputControl.Input("What is your title? (Hit enter when you finish)\n", accept_blank=False)
-        body = InputControl.Input("\nWhat do you want in your post? (Hit enter when you finish)\n", accept_blank=False)
+        title = InputControl.Input("What is your title? (Hit enter when you finish)\n", accept_blank=False,
+                                   enforce_lower=False, allow_special=True)
+        body = InputControl.Input("\nWhat do you want in your post? (Hit enter when you finish)\n", accept_blank=False,
+                                  enforce_lower=False, allow_special=True)
         confirm = InputControl.Input("Do you confirm your new post? y/n")
 
         while confirm not in acceptable_value:
@@ -93,7 +96,12 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     # Accepting keyword, order SQL query
     def searchPost(self):
         print("\n\n_______________________Search Post________________________")
-        keyword = input("Search Keyword, use ',' to search multiple: ").split(",")
+        keyword = InputControl.Input("Search Keyword, use ',' to search multiple: ", enforce_lower=True,
+                                     allow_special=False).split(",")
+
+        for kw in keyword:
+            if kw == '':
+                keyword.remove(kw)
 
         if keyword == ['logout']:
             return 10, None
@@ -147,7 +155,6 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             new_record.append(tmp)
 
         records = new_record
-        print(records)
 
         # This section display them page by page
         bookkeeper = Pages(records, 0, col_name=column_array)
@@ -248,7 +255,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         acceptable_value = ['y', 'n', 'logout']
         confirm = InputControl.Input("Do you confirm the answer? y/n")
         while confirm not in acceptable_value:
-            confirm = InputControl.Input("Unrecognized input. Do you confirm this answer? y/n ")
+            confirm = InputControl.Input("Unrecognized input. Do you confirm this answer? y/n ", enforce_lower=False,
+                                         allow_special=True)
 
         if confirm == 'n':
             return 0, None
@@ -413,12 +421,12 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
         elif inp == '1':  # edit title
             print("What is your new title of the post?")
-            title = InputControl.Input("")
+            title = InputControl.Input("", allow_special=True, enforce_lower=False)
             update_title_sql = f"UPDATE POSTS SET TITLE = '{title}' WHERE PID = '{pid}';"
             self.__sever.requestQuery(update_title_sql, retriever=False, debug_mode=True)
         elif inp == '2':  # edit body
             print("What is your new body of the post?")
-            body = InputControl.Input("")
+            body = InputControl.Input("", allow_special=True, enforce_lower=False)
             update_body_sql = f"UPDATE POSTS SET BODY = '{body}' WHERE PID = '{pid}';"
             self.__sever.requestQuery(update_body_sql, retriever=False, debug_mode=True)
         return 3, pid

@@ -5,11 +5,15 @@ from getpass import getpass
 class InputControl:
     # Replacing input
     @staticmethod
-    def Input(prompt='', enforce_lower=True, is_pwd=False, accept_blank=False, allow_special=False):
+    def Input(prompt='', enforce_lower=True, is_pwd=False, accept_blank=False, allow_special=False, alphanum_only=False):
         if is_pwd:
             user_inp = getpass(prompt)
+            if user_inp == 'quit':
+                exit()
             check = re.match("[a-zA-Z0-9]+$", user_inp)
             while not check:
+                if user_inp == 'quit':
+                    exit()
                 user_inp = getpass("Password can only contains alphanumeric character. " + prompt)
                 check = re.match("[a-zA-Z0-9]+$", user_inp)
 
@@ -24,6 +28,12 @@ class InputControl:
             while user_inp == '':
                 new_prompt = "Cannot accept blank, please try again. " + prompt
                 user_inp = input(new_prompt)
+
+        if alphanum_only:
+            check = re.match("[a-zA-Z0-9]+$", user_inp)
+            while not check:
+                user_inp = input("Can only contains alphanumeric character. " + prompt)
+                check = re.match("[a-zA-Z0-9]+$", user_inp)
 
         special_char = ['\'', '-']
         if not allow_special:
