@@ -126,14 +126,6 @@ class Database(DatabaseInterface):
             return False
         return True
 
-    # Check if a post is an answer
-    def checkIfAnswer(self, pid):
-        check_answer_SQL = f"SELECT * FROM ANSWERS A WHERE A.PID = '{pid}';"
-        answer_record = self.requestQuery(check_answer_SQL, internal_call=True, debug_mode=True)
-        if len(answer_record) == 0:
-            return False
-        return True
-
     # Check if the question already has an accepted answer. Return False if it have none
     def checkAA(self, qid):
         sql = f"SELECT * FROM QUESTIONS Q WHERE Q.PID = '{qid}' AND Q.THEAID ISNULL;"
