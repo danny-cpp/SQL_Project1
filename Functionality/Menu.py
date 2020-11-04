@@ -100,7 +100,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
                ") Z LEFT JOIN votes V ON Z.pid = V.pid " +
                "GROUP BY Z.pid, Z.pdate, Z.title, Z.body, Z.poster;")
 
-        column_array = ['pid', 'post date', 'title', 'content', 'poster', 'votes']
+        column_array = ['pid', 'type', 'post date', 'title', 'content', 'poster', 'votes']
         records = self.__sever.requestQuery(sql, retriever=True, col_name=column_array, internal_call=True,
                                             fetch_many=True, debug_mode=True)
 
@@ -108,8 +108,24 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         for page in records:
             for line in page:
                 available_pid.append(line[0])
-                if self.__sever.checkAA(line[0]):
-                    pass
+
+        new_record = []
+        for page in records:
+            tmp = []
+            for line in page:
+                tmp_line = list(line)
+
+                # If it's an answer attach "A
+                if self.__sever.checkIfAnswer(tmp_line[0]):
+                    tmp_line.insert(1, "A")
+                else:
+                    tmp_line.insert(1, "Q")
+
+                tmp.append(list(tmp_line))
+            new_record.append(tmp)
+
+        records = new_record
+        print(records)
 
         # This section display them page by page
         bookkeeper = Pages(records, 0, col_name=column_array)
