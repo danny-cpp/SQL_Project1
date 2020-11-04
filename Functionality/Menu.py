@@ -1,6 +1,7 @@
 from Functionality.FunctionalityInterace import *
 from Functionality.PrivilegedInterface import *
 from Functionality.Pages import Pages
+from Login.Display import *
 from Object.User import *
 from InputControl.RegInput import *
 
@@ -9,17 +10,28 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     # As we build a finite state machine here, each number will be each state of this machine.
     # For this particular case: 0 = Main Menu, 1 = Post Question, 2 = Post Question, 3 = Search Post
     # It also needs to operate on a server and a user object
-    def __init__(self, svr, usr, state, chosenPID):
+    def __init__(self, svr, state, chosenPID):
         self.__sever = svr
-        self.__user = usr
+        self.__user = None
         self.__state = state
         self.__chosenPID = chosenPID # Store the current current chosen post ID
 
+    def setServer(self, server):
+        self.__sever == server
+
+    def setstate(self, state):
+        self.__state = state
+
+    def setPID(self,pid):
+        self.__chosenPID = pid
+
     # This is the entry point of the FSM, it call correspond functions with required information
     def menuNavigate(self):
-        if self.__state == 0:
+        if self.__state == 10:
+            return self.welcome()
+        elif self.__state == 0:
             return self.MainMenu()
-        if self.__state == 1:
+        elif self.__state == 1:
             return self.postQuestion()
         elif self.__state == 2:
             return self.searchPost()
@@ -38,13 +50,21 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         elif self.__state == 9:
             return self.MMA()
 
+    def welcome(self):
+        self.__user = None
+        while self.__user is None:
+            self.__user = Display.welcomeScreen(self.__sever)
+        return 0, None
+
     # After login successfully, user will be in the navigation panel. Display all
     # options the user has.
     def MainMenu(self):
-        acceptable_value = ['1', '2']
+        acceptable_value = ['1', '2','logout']
+        print("\n\nWelcome back " + self.__user.getName() + "!")
         print("\n\n________________________Main menu________________________")
         print("Input the corresponding number to navigate to that option")
         print("Type 'back' anytime you want to return to Main Menu")
+        print("Type 'logout' anytime you want to return to Login Menu")
         print("1. Post Question")
         print("2. Search Post  ")
         inp = InputControl.Input("Please type in the number correspond to the option you choose: ")
@@ -53,8 +73,10 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
         if inp == '1':
             return 1, None
-        if inp == '2':
+        elif inp == '2':
             return 2, None
+        elif inp == 'logout':
+            return 10, None
 
     # Accept string as input, return SQL string statement update. Assume that UID
     # will be provided. It must implement a hash function to create a pid
@@ -149,10 +171,12 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             if tmp_bool: print("Invalid PID, ", end="")
             tmp_bool = False
             pid = InputControl.Input("Please choose the post by type in the PID to interact with it, or 'back' " +
-                        "to return to main menu: ")
+                        "to return to main menu, or 'logout' to log out: ")
 
             if pid == 'back':
                 return 0, None
+            elif pid == 'logout':
+                return 10, None
             elif pid == 'prev':
                 bookkeeper.prevPage()
                 continue
@@ -174,7 +198,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     def postActionMenu(self):
         print("\n_______________________Action Menu________________________")
         print("You have chosen post " + self.__chosenPID)
-        acceptable_value = ['1', 'back']
+        acceptable_value = ['1', 'back', 'logout']
 
         column_array = ['pid', 'post date', 'title', 'content', 'poster']
         sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{self.__chosenPID}';"
@@ -184,6 +208,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
         print("What do you want to do with this post? ")
         print("Type 'back' anytime you want to return to Main Menu")
+        print("Type 'logout' anytime you want to return to Login Menu")
         print("1. Vote Post")
 
         if not post_is_answer:
@@ -209,6 +234,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
         if inp == 'back':
             return 0, None
+        elif inp == 'logout':
+            return 10, None
         if inp == '1':                      # Vote post
             return 5, self.__chosenPID
         if inp == '2':                      # Answer (only if it is not an answer itself)
@@ -246,7 +273,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         date = self.__sever.getCurrentTime()
         pid = self.__chosenPID
 
-        acceptable = ['y', 'n', 'quit']
+        acceptable = ['y', 'n']
         print("\n\n________________________Make Vote________________________")
         vote = InputControl.Input("Do you want to vote the post? y/n ")
         while vote in acceptable:
@@ -254,8 +281,6 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
                 break
             if vote == 'n':
                 return 3, pid
-            if vote == 'quit':
-                exit()
             else:
                 key = InputControl.Input("Wrong input, Do you want to vote the post? y/n ")
 
@@ -324,12 +349,14 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             badge_list.append(row[0])
 
         inp = InputControl.Input("\nPlease select a badge name in this list to grant user the badge " +
-                    "or 'back' to return to previous menu': ")
+                    "or 'back' to return to previous menu, 'logout' to log out your account: ")
 
         bool_flag = True
         while inp not in badge_list:
             if inp == 'back':
                 return 3, self.__chosenPID
+            elif inp == 'logout':
+                return 10, None
             inp = InputControl.Input("Invalid badge name, please enter again")
 
         sql = f"INSERT INTO UBADGES(UID, BDATE, BNAME) VALUES ('{poster}', '{post_date}', '{inp}');"
@@ -358,6 +385,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         print("Title: " + post[0][0])
         print("Body: " + post[0][1])
         print("Type 'back' anytime you want to return to Main Menu")
+        print("Type 'logout' anytime you want to log out")
         print("1. Edit Title")
         print("2. Edit Body")
         inp = InputControl.Input("Please type in the number correspond to the option you choose: ")
@@ -365,6 +393,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             inp = InputControl.Input("Unrecognized input. Please type in the number correspond to the option you choose: ")
         if inp == 'back':
             return 3, pid
+        elif inp == 'logout':
+            return 10, None
         elif inp == '1':  # edit title
             print("What is your new title of the post?")
             title = InputControl.Input("")
@@ -386,6 +416,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         keyword_sql = " OR ".join(keyword_sql)
         keyword_sql = "WHERE" + keyword_sql
         return keyword_sql
+
 
 
 if __name__ == '__main__':
