@@ -77,17 +77,30 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     # Accepting keyword, order SQL query
     def searchPost(self):
         print("\n\n_______________________Search Post________________________")
-        keyword = input("Search Keyword: ").lower()
-        sql = ("SELECT * FROM posts P " +
-               f"WHERE lower(P.title) LIKE lower('%{keyword}%') " +
-               "UNION " +
-               "SELECT * FROM posts P " +
-               f"WHERE lower(P.body) LIKE lower('%{keyword}%') " +
-               "UNION " +
-               "SELECT P.* FROM posts P JOIN tags T ON P.pid = T.pid " +
-               f"WHERE lower(T.tag) LIKE lower('%{keyword}%');")
+        keyword = input("Search Keyword, use ',' to search multiple: ").split(",")
 
-        column_array = ['pid', 'post date', 'title', 'content', 'poster']
+        # prepare keyword clause
+        keyword_sql_title = self.where_clause_preparation("P.title", keyword)
+        keyword_sql_body = self.where_clause_preparation("P.body", keyword)
+        keyword_sql_tag = self.where_clause_preparation("T.tag", keyword)
+
+        sql = ("SELECT P.*, COUNT(V.vno) FROM posts P LEFT JOIN votes V ON P.pid = V.pid " +
+               keyword_sql_title +
+               "GROUP BY P.pid, P.pdate, P.title, P.body, P.poster " +
+               "UNION " +
+               "SELECT P.*, COUNT(V.vno) FROM posts P LEFT JOIN votes V ON P.pid = V.pid " +
+               keyword_sql_body +
+               "GROUP BY P.pid, P.pdate, P.title, P.body, P.poster " +
+               "UNION " +
+               "SELECT Z.*, COUNT(V.vno) FROM ( " +
+               "    SELECT DISTINCT P.* " +
+	           "    FROM posts P " +
+               "    JOIN tags T ON P.pid = T.pid " +
+                    keyword_sql_tag +
+               ") Z LEFT JOIN votes V ON Z.pid = V.pid " +
+               "GROUP BY Z.pid, Z.pdate, Z.title, Z.body, Z.poster;")
+
+        column_array = ['pid', 'post date', 'title', 'content', 'poster', 'votes']
         records = self.__sever.requestQuery(sql, retriever=True, col_name=column_array, internal_call=True,
                                             fetch_many=True, debug_mode=True)
 
@@ -95,6 +108,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         for page in records:
             for line in page:
                 available_pid.append(line[0])
+                if self.__sever.checkAA(line[0]):
+                    pass
 
         # This section display them page by page
         bookkeeper = Pages(records, 0, col_name=column_array)
@@ -330,9 +345,23 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             self.__sever.requestQuery(update_body_sql, retriever=False, debug_mode=True)
         return 3, pid
 
+    # This function is for internal calls only, it prepare where clause condition for queries
+    def where_clause_preparation(self, subject, keyword_list):
+        keyword_sql = []
+        for kw in keyword_list:
+            keyword_sql.append(f" lower({subject}) LIKE lower('%{kw}%') ")
+
+        keyword_sql = " OR ".join(keyword_sql)
+        keyword_sql = "WHERE" + keyword_sql
+        return keyword_sql
+
 
 if __name__ == '__main__':
     server = Database('../Backend/myDB.db')
     dummy = User('u500', 'D', 'abc', 'Edmonton', '2020-08-08')
     window = Menu(server, dummy, 7, 'p700')
-    window.menuNavigate()
+    # window.menuNavigate()
+    print(window.where_clause_preparation("P.title", ['data', 'base']))
+
+
+    # f"lower(P.title) LIKE lower('%{kw}%') "

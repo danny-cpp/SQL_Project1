@@ -15,11 +15,11 @@ class Pages:
         for row in self.__record_list[self.__page_number]:
             row = list(row)
 
-            if len(row[2]) > 30:
-                row[2] = row[2][:27] + "..."
-
-            if len(row[3]) > 45:
-                row[3] = row[3][:42] + "..."
+            # if len(row[2]) > 30:
+            #     row[2] = row[2][:27] + "..."
+            #
+            # if len(row[3]) > 45:
+            #     row[3] = row[3][:42] + "..."
 
             table.add_row(row)
 

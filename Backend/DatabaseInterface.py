@@ -52,7 +52,7 @@ class DatabaseInterface:
         pass
 
     # Check if a post is an answer
-    def checkIfAnswer(self):
+    def checkIfAnswer(self, pid):
         pass
 
     # Check if a post already has an accepted answer. Return False if it have none
