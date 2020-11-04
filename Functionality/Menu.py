@@ -41,7 +41,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     # After login successfully, user will be in the navigation panel. Display all
     # options the user has.
     def MainMenu(self):
-        acceptable_value = ['1', '2']
+        acceptable_value = ['1', '2', 'logout']
         print("\n\n________________________Main menu________________________")
         print("Input the corresponding number to navigate to that option")
         print("Type 'back' anytime you want to return to Main Menu")
@@ -55,12 +55,14 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             return 1, None
         if inp == '2':
             return 2, None
+        if inp == 'logout':
+            return 10, None
 
     # Accept string as input, return SQL string statement update. Assume that UID
     # will be provided. It must implement a hash function to create a pid
     def postQuestion(self):
         uid = self.__user.getUid()
-        acceptable_value = ['y', 'n']
+        acceptable_value = ['y', 'n', 'logout']
         print("\n\n________________________Make Post________________________")
 
         title = InputControl.Input("What is your title? (Hit enter when you finish)\n", accept_blank=False)
@@ -69,8 +71,12 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
         while confirm not in acceptable_value:
             confirm = InputControl.Input("Unrecognized input. Do you confirm your new post? y/n ")
+
         if confirm == 'n':
             return 0, None
+        if confirm == 'logout':
+            return 10, None
+
         date = self.__sever.getCurrentTime()
         pid = self.__sever.requestNewPID()
         sql = ("INSERT INTO POSTS (pid, pdate, title, body, poster) " +
@@ -88,6 +94,9 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     def searchPost(self):
         print("\n\n_______________________Search Post________________________")
         keyword = input("Search Keyword, use ',' to search multiple: ").split(",")
+
+        if keyword == ['logout']:
+            return 10, None
 
         # prepare keyword clause
         keyword_sql_title = self.where_clause_preparation("P.title", keyword)
@@ -149,10 +158,12 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             if tmp_bool: print("Invalid PID, ", end="")
             tmp_bool = False
             pid = InputControl.Input("Please choose the post by type in the PID to interact with it, or 'back' " +
-                        "to return to main menu: ")
+                                     "to return to main menu: ")
 
             if pid == 'back':
                 return 0, None
+            if pid == 'logout':
+                return 10, None
             elif pid == 'prev':
                 bookkeeper.prevPage()
                 continue
@@ -174,7 +185,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     def postActionMenu(self):
         print("\n_______________________Action Menu________________________")
         print("You have chosen post " + self.__chosenPID)
-        acceptable_value = ['1', 'back']
+        acceptable_value = ['1', 'back', 'logout']
 
         column_array = ['pid', 'post date', 'title', 'content', 'poster']
         sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{self.__chosenPID}';"
@@ -205,10 +216,13 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
         inp = InputControl.Input("Please type in the number correspond to the option you choose: ")
         while inp not in acceptable_value:
-            inp = InputControl.Input("Unrecognized input. Please type in the number correspond to the option you choose: ")
+            inp = InputControl.Input("Unrecognized input. Please type in the number correspond "
+                                     "to the option you choose: ")
 
         if inp == 'back':
             return 0, None
+        if inp == 'logout':
+            return 10, None
         if inp == '1':                      # Vote post
             return 5, self.__chosenPID
         if inp == '2':                      # Answer (only if it is not an answer itself)
@@ -226,8 +240,21 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     def answerQuestion(self):
         uid = self.__user.getUid()
         print("\n\n________________________Make Answer________________________")
+
         title = InputControl.Input("What is your title? ")
         body = InputControl.Input("What do you want to answer? ")
+
+        # Confirmation
+        acceptable_value = ['y', 'n', 'logout']
+        confirm = InputControl.Input("Do you confirm the answer? y/n")
+        while confirm not in acceptable_value:
+            confirm = InputControl.Input("Unrecognized input. Do you confirm this answer? y/n ")
+
+        if confirm == 'n':
+            return 0, None
+        if confirm == 'logout':
+            return 10, None
+
         date = self.__sever.getCurrentTime()
         pid = self.__sever.requestNewPID()
         qid = self.__chosenPID
@@ -246,7 +273,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         date = self.__sever.getCurrentTime()
         pid = self.__chosenPID
 
-        acceptable = ['y', 'n', 'quit']
+        acceptable = ['y', 'n', 'quit', 'logout']
         print("\n\n________________________Make Vote________________________")
         vote = InputControl.Input("Do you want to vote the post? y/n ")
         while vote in acceptable:
@@ -254,10 +281,12 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
                 break
             if vote == 'n':
                 return 3, pid
+            if vote == 'logout':
+                return 10, None
             if vote == 'quit':
                 exit()
             else:
-                key = InputControl.Input("Wrong input, Do you want to vote the post? y/n ")
+                vote = InputControl.Input("Wrong input, Do you want to vote the post? y/n ")
 
         if self.__sever.requestVoteCheck(uid, pid):
             print("You already vote this post!")
@@ -283,15 +312,17 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
         if check_AA:
             inp = InputControl.Input("THIS POST ALREADY HAVE AN ACCEPTED ANSWER. ARE YOU SURE YOU WANT TO CHANGE" +
-                        "IT TO THIS ONE? y/n ")
+                                     "IT TO THIS ONE? y/n ")
 
-        acceptable_answer = ['n', 'y']
+        acceptable_answer = ['n', 'y', 'logout']
         while inp not in acceptable_answer:
             inp = InputControl.Input("Unrecognized input. ARE YOU SURE YOU WANT TO CHANGE" +
-                        "THE ACCEPTED ANSWER TO THIS ONE? y/n ")
+                                     "THE ACCEPTED ANSWER TO THIS ONE? y/n ")
 
         if inp == 'n':
             return 3, self.__chosenPID
+        if inp == 'logout':
+            return 10, None
 
         sql = f"UPDATE QUESTIONS SET THEAID = '{self.__chosenPID}' WHERE PID = '{qid}';"
 
@@ -313,7 +344,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
         if received_post:
             inp = InputControl.Input("\nSORRY, THIS POSTER HAS ALREADY RECEIVED A BADGE TODAY. TRY AGAIN TOMORROW."
-                        "\nHit Enter to return to the previous menu.")
+                                     "\nHit Enter to return to the previous menu.")
 
             return 3, self.__chosenPID
         column_array = ['BADGES NAME', 'TYPE']
@@ -330,6 +361,9 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         while inp not in badge_list:
             if inp == 'back':
                 return 3, self.__chosenPID
+            if inp == 'logout':
+                return 10, None
+
             inp = InputControl.Input("Invalid badge name, please enter again")
 
         sql = f"INSERT INTO UBADGES(UID, BDATE, BNAME) VALUES ('{poster}', '{post_date}', '{inp}');"
@@ -342,6 +376,14 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
     def addTags(self):
         print("\n______________________Add tag_______________________")
         inp = InputControl.Input("Choose a keyword as a tag to add to this post: ")
+
+        while inp == 'back' or inp == 'logout':
+            inp = InputControl.Input("Are you sure to not proceed? Enter the command phrase again to confirm. "
+                                     "Otherwise, cannot use command phrases as tags.")
+            if inp == 'back':
+                break
+            if inp == 'logout':
+                return 10, None
 
         sql = f"INSERT INTO TAGS(PID, TAG) VALUES ('{self.__chosenPID}', '{inp}')"
         self.__sever.requestQuery(sql, retriever=False, internal_call=True, debug_mode=True)
@@ -362,7 +404,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         print("2. Edit Body")
         inp = InputControl.Input("Please type in the number correspond to the option you choose: ")
         while inp not in acceptable_value:
-            inp = InputControl.Input("Unrecognized input. Please type in the number correspond to the option you choose: ")
+            inp = InputControl.Input("Unrecognized input. Please type in the number correspond to the option "
+                                     "you choose: ")
         if inp == 'back':
             return 3, pid
         elif inp == '1':  # edit title
