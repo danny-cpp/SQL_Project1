@@ -44,6 +44,7 @@ class InputControl:
         else:
             user_inp = user_inp.replace("'", "''")
             user_inp = user_inp.replace("-", "")
+            print(user_inp)
 
         if enforce_lower:
             user_inp = user_inp.lower()

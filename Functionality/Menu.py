@@ -194,7 +194,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         print("You have chosen post " + self.__chosenPID)
         acceptable_value = ['1', 'back', 'logout']
 
-        column_array = ['pid', 'post date', 'title', 'content', 'poster']
+        column_array = ['PID', 'POST DATE', 'TITLE', 'CONTENT', 'POSTER']
         sql1 = f"SELECT * FROM POSTS P WHERE P.PID = '{self.__chosenPID}';"
         self.__sever.requestQuery(sql1, retriever=True, col_name=column_array, debug_mode=True)
         privilege_status = self.__sever.checkIfPrivilege(self.__user.getUid())
@@ -248,15 +248,15 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         uid = self.__user.getUid()
         print("\n\n________________________Make Answer________________________")
 
-        title = InputControl.Input("What is your title? ")
-        body = InputControl.Input("What do you want to answer? ")
+        title = InputControl.Input("What is your title? ", enforce_lower=False, allow_special=True)
+        body = InputControl.Input("What do you want to answer? ", enforce_lower=False, allow_special=True)
 
         # Confirmation
         acceptable_value = ['y', 'n', 'logout']
-        confirm = InputControl.Input("Do you confirm the answer? y/n")
+        confirm = InputControl.Input("Do you confirm the answer? y/n ")
         while confirm not in acceptable_value:
             confirm = InputControl.Input("Unrecognized input. Do you confirm this answer? y/n ", enforce_lower=False,
-                                         allow_special=True)
+                                         allow_special=False)
 
         if confirm == 'n':
             return 0, None
@@ -272,7 +272,10 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
         sql = ("INSERT INTO ANSWERS (pid, qid) " +
                f"VALUES ('{pid}','{qid}');")
         self.__sever.requestQuery(sql, retriever=False, internal_call=True, debug_mode=True)
-        print("Successfully answered post " + str(qid))
+        print("\n SUCCESSFULLY ANSWERED POST " + str(qid))
+
+        self.__sever.requestQuery(f"SELECT * FROM POSTS P WHERE P.PID = '{pid}';", internal_call=False,
+                                  col_name=['PID', 'POST DATE', 'TITLE', 'CONTENT', 'POSTER'])
         return 3, qid
 
     # Order an sql string to update vote according to pid
@@ -297,9 +300,9 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
                 vote = InputControl.Input("Wrong input, Do you want to vote the post? y/n ")
 
         if self.__sever.requestVoteCheck(uid, pid):
-            print("You already vote this post!")
+            print("\nYOU ALREADY VOTED THIS POST!\n")
             return 3, pid
-        vno = self.__sever.requestNewVno()
+        vno = self.__sever.requestNewVno(self.__chosenPID)
         sql = ("INSERT INTO votes (pid, vno, vdate, uid) " +
                f"VALUES ('{pid}','{vno}', DATE('{date}'), '{uid}');")
         self.__sever.requestQuery(sql, retriever=False, debug_mode=True)
@@ -363,7 +366,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             badge_list.append(row[0])
 
         inp = InputControl.Input("\nPlease select a badge name in this list to grant user the badge " +
-                    "or 'back' to return to previous menu': ")
+                                 "or 'back' to return to previous menu': ")
 
         bool_flag = True
         while inp not in badge_list:
@@ -378,7 +381,7 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
         print(f"{poster} {post_date} {inp}")
         self.__sever.requestQuery(sql, internal_call=True, retriever=False, debug_mode=True)
-        print("Successfully Give A Badge!")
+        print("\n SUCCESSFULLY GAVE BADGE!\n")
         return 3, self.__chosenPID
 
     def addTags(self):
@@ -395,6 +398,8 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
 
         sql = f"INSERT INTO TAGS(PID, TAG) VALUES ('{self.__chosenPID}', '{inp}')"
         self.__sever.requestQuery(sql, retriever=False, internal_call=True, debug_mode=True)
+
+        print(f"\nSUCCESSFULLY ADDED {inp} AS A TAG OF {self.__chosenPID}!")
 
         return 3, self.__chosenPID
 
@@ -424,11 +429,13 @@ class Menu(FunctionalityInterface, PrivilegeInterface):
             title = InputControl.Input("", allow_special=True, enforce_lower=False)
             update_title_sql = f"UPDATE POSTS SET TITLE = '{title}' WHERE PID = '{pid}';"
             self.__sever.requestQuery(update_title_sql, retriever=False, debug_mode=True)
+
         elif inp == '2':  # edit body
             print("What is your new body of the post?")
             body = InputControl.Input("", allow_special=True, enforce_lower=False)
             update_body_sql = f"UPDATE POSTS SET BODY = '{body}' WHERE PID = '{pid}';"
             self.__sever.requestQuery(update_body_sql, retriever=False, debug_mode=True)
+
         return 3, pid
 
     # This function is for internal calls only, it prepare where clause condition for queries

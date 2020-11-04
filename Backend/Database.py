@@ -54,7 +54,7 @@ class Database(DatabaseInterface):
         return True
 
     def requestQuery(self, query_string, retriever=True, col_name=[],
-                     internal_call=False, debug_mode=False, fetch_many=False):
+                     internal_call=False, debug_mode=False, fetch_many=False, limiter=False):
 
         # for debugging purpose, turn this off for official version
         if debug_mode:
@@ -68,6 +68,12 @@ class Database(DatabaseInterface):
 
             table = PrettyTable()
             table.field_names = col_name
+
+            table._max_width = {"TITLE": 30, "CONTENT": 45}
+            table.align["PID"] = 'l'
+            table.align["TITLE"] = 'l'
+            table.align["CONTENT"] = 'l'
+            table.align["POSTER"] = 'l'
 
             # If it is not an internal call, display
             if not internal_call:
@@ -117,6 +123,10 @@ class Database(DatabaseInterface):
         get_new_vno_SQL = f"SELECT MAX(V.VNO) FROM VOTES V WHERE V.PID = '{pid}' GROUP BY V.PID;"
 
         vno = self.requestQuery(get_new_vno_SQL, True, internal_call=True)
+
+        if len(vno) == 0:
+            return 1
+
         vno = int(vno[0][0]) + 1
         return vno
 
