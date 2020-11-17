@@ -5,7 +5,7 @@ from getpass import getpass
 class InputControl:
     # Replacing input
     @staticmethod
-    def Input(prompt='', enforce_lower=True, is_pwd=False, accept_blank=False, allow_special=False, alphanum_only=False):
+    def Input(prompt='', enforce_lower=0, is_pwd=False, accept_blank=False, allow_special=False, alphanum_only=False):
         if is_pwd:
             user_inp = getpass(prompt)
             if user_inp == 'quit':

@@ -52,7 +52,7 @@ class Display(LoginInterface):
             return None
         insert_user = ("INSERT INTO users (uid, name, pwd, city, crdate)" +
                        f" VALUES ('{uid}', '{usrname}', '{pwd}', '{city}', DATE('{cr_date}'));")
-        svr.requestQuery(insert_user)
+        svr.requestQuery(insert_user, retriever=0)
 
         print("Account successfully created, you will be login right now!")
         return usr
